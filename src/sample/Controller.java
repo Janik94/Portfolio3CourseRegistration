@@ -8,6 +8,9 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class Controller {
     public TextField textFieldFirstName;
     public TextField textFieldLastName;
@@ -47,6 +50,16 @@ public class Controller {
 
     //Will be executed only when GUI is ready
     public void initialize() {
+        String url = "jdbc:sqlite:C:\\Users\\WinSa\\OneDrive\\Dokumenter\\RUC\\Fifth semester\\Software Development\\Programs from class\\Portfolio3CourseRegistration\\StudentsGrades.db";
+        GradeModel gradeModel = new GradeModel(url);
+        try{
+            gradeModel.connect();
+            gradeModel.createStatement();
+        }catch (SQLException e){
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+        students.addAll(gradeModel.StudentQueryStatement());
         tableStudents.setItems(students);
         tableColumnFirstName.setCellValueFactory(
                 new PropertyValueFactory<Student, String>("firstName")
@@ -88,11 +101,11 @@ public class Controller {
         ES19_StudentID.setItems(courses.get(0).getEnrolledStudents());
         SD19_StudentID.setItems(courses.get(1).getEnrolledStudents());
         SD20_StudentID.setItems(courses.get(2).getEnrolledStudents());
+
         ES19_grades.setItems(courses.get(0).getGradesOfStudents());
         SD19_grades.setItems(courses.get(1).getGradesOfStudents());
         SD20_grades.setItems(courses.get(2).getGradesOfStudents());
-
-    }
+        }
 
     public void AddStudentToCourse(ActionEvent actionEvent) {
         //Actually enroll the students
@@ -122,4 +135,6 @@ public class Controller {
         System.out.println(student.getFirstName() + " has grade " + grade.getGrade());
 
     }
+
+
 }

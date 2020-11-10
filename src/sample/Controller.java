@@ -35,6 +35,8 @@ public class Controller {
     public ListView SD19_grades;
     public ListView SD20_grades;
     public ListView ES19_grades;
+    public ComboBox comboBoxStudentsInfo;
+    public ListView CoursesTaken;
 
     ObservableList<Student> students = FXCollections.observableArrayList();
     ObservableList<Course> courses = FXCollections.observableArrayList();
@@ -90,6 +92,7 @@ public class Controller {
         });
 
         comboBoxGradesForStudent.setItems(grades);
+        comboBoxStudentsInfo.setItems(students);
 
         courses.addAll(new Course("ES1"),new Course("SD19"), new Course("SD20"));
         grades.addAll(new Grade("-3"),new Grade("02"),new Grade("4"),new Grade("7"),new Grade("10"), new Grade("12"));
@@ -137,4 +140,8 @@ public class Controller {
     }
 
 
+    public void checkStudent(ActionEvent actionEvent) {
+        Student student = (Student) comboBoxStudentsInfo.getSelectionModel().getSelectedItem();
+        //If student is in course add course to listView
+    }
 }

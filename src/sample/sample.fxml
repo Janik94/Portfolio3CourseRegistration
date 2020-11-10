@@ -26,9 +26,18 @@
                         <font>
                             <Font name="Cambria" size="12.0" />
                         </font></Label>
-                    <Label text="Last name" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                    <Label text="Student id" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                    <Label text="Hometown" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                    <Label text="Last name" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                  <font>
+                     <Font name="Cambria" size="12.0" />
+                  </font></Label>
+                    <Label text="Student id" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                  <font>
+                     <Font name="Cambria" size="12.0" />
+                  </font></Label>
+                    <Label text="Hometown" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+                  <font>
+                     <Font name="Cambria" size="12.0" />
+                  </font></Label>
                     <TextField fx:id="textFieldFirstName" GridPane.columnIndex="1">
                         <GridPane.margin>
                             <Insets left="20.0" right="10.0" />
@@ -80,11 +89,22 @@
             <BorderPane>
                 <top>
                     <FlowPane>
-                        <Label text="Choose Students:" />
+                        <Label text="Choose Students:">
+                            <font>
+                                <Font name="Cambria" size="12.0" />
+                            </font>
+                        </Label>
                         <ComboBox fx:id="comboBoxStudents" />
-                        <Label text="Choose Course:" />
+                        <Label text="Choose Course:">
+                            <font>
+                                <Font name="Cambria" size="12.0" />
+                            </font>
+                        </Label>
                         <ComboBox fx:id="comboBoxCourses" />
-                        <Button onAction="#AddStudentToCourse" text="Add Student" />
+                        <Button onAction="#AddStudentToCourse" text="Add Student">
+                            <font>
+                                <Font name="Cambria" size="12.0" />
+                            </font></Button>
                     </FlowPane>
                 </top>
                 <center>
@@ -103,9 +123,21 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         </rowConstraints>
                         <children>
-                            <Label text="Software Development 2019" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                            <Label text="Software Development 2020" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                            <Label text="Essential Computing I 2019" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                            <Label text="Software Development 2019" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                <font>
+                                    <Font name="Cambria" size="12.0" />
+                                </font>
+                            </Label>
+                            <Label text="Software Development 2020" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                <font>
+                                    <Font name="Cambria" size="12.0" />
+                                </font>
+                            </Label>
+                            <Label text="Essential Computing I 2019" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                <font>
+                                    <Font name="Cambria" size="12.0" />
+                                </font>
+                            </Label>
                             <ListView fx:id="SD19_addStudent" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" GridPane.rowSpan="5" />
                             <ListView fx:id="SD20_addStudent" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="5" />
                             <ListView fx:id="ES19_addStudent" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.rowSpan="5" />
@@ -125,11 +157,17 @@
                                     <Font name="Cambria" size="12.0" />
                                 </font></Label>
                             <ComboBox fx:id="comboBoxStudentsForGrade" />
-                            <Label text="Choose Course:" />
+                            <Label text="Choose Course:">
+                        <font>
+                           <Font name="Cambria" size="12.0" />
+                        </font></Label>
                             <ComboBox fx:id="comboBoxCoursesForGrade" />
-                            <Label text="Select grade" />
+                            <Label text="Select grade">
+                        <font>
+                           <Font name="Cambria" size="12.0" />
+                        </font></Label>
                             <ComboBox fx:id="comboBoxGradesForStudent" />
-                            <Button onAction="#AddGradeToStudent" text="Add Student">
+                            <Button onAction="#AddGradeToStudent" text="Add Grade">
                                 <font>
                                     <Font name="Cambria" size="12.0" />
                                 </font></Button>
@@ -154,25 +192,133 @@
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <Label text="Software Development 2019" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                <Label text="Software Development 2020" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                                <Label text="Essential Computing I 2019" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                <Label text="Software Development 2019" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                           <font>
+                              <Font name="Cambria" size="12.0" />
+                           </font></Label>
+                                <Label text="Software Development 2020" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                           <font>
+                              <Font name="Cambria" size="12.0" />
+                           </font></Label>
+                                <Label text="Essential Computing I 2019" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                           <font>
+                              <Font name="Cambria" size="12.0" />
+                           </font></Label>
                                 <ListView fx:id="SD20_grades" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2" GridPane.rowSpan="4" />
                                 <ListView fx:id="ES19_StudentID" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2" GridPane.rowSpan="4" />
                                 <ListView fx:id="ES19_grades" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="5" GridPane.rowIndex="2" GridPane.rowSpan="4" />
                         <ListView fx:id="SD19_StudentID" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2" GridPane.rowSpan="4" />
                         <ListView fx:id="SD19_grades" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.rowSpan="4" />
                         <ListView fx:id="SD20_StudentID" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.rowSpan="4" />
-                        <Label text="Student ID" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                        <Label text="Grade" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                        <Label text="Grade" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                        <Label text="Student ID" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                        <Label text="Student ID" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                        <Label text="Grade" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                        <Label text="Student ID" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                           <font>
+                              <Font name="Cambria" size="12.0" />
+                           </font></Label>
+                        <Label text="Grade" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                            <font>
+                                <Font name="Cambria" size="12.0" />
+                            </font>
+                        </Label>
+                        <Label text="Grade" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                            <font>
+                                <Font name="Cambria" size="12.0" />
+                            </font>
+                        </Label>
+                        <Label text="Student ID" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                            <font>
+                                <Font name="Cambria" size="12.0" />
+                            </font>
+                        </Label>
+                        <Label text="Student ID" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                            <font>
+                                <Font name="Cambria" size="12.0" />
+                            </font>
+                        </Label>
+                        <Label text="Grade" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                            <font>
+                                <Font name="Cambria" size="12.0" />
+                            </font>
+                        </Label>
                             </children>
                         </GridPane>
                     </center>
                 </BorderPane>
+            </content>
+        </Tab>
+        <Tab text="Student Info and Average grades">
+            <content>
+                <BorderPane>
+               <top>
+                  <FlowPane prefHeight="52.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label text="Choose student: ">
+                           <font>
+                              <Font name="Cambria" size="12.0" />
+                           </font>
+                        </Label>
+                        <ComboBox fx:id="comboBoxStudentsInfo" prefWidth="150.0" />
+                         <Button onAction="#checkStudent" text="Check student info" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                             <font>
+                                 <Font name="Cambria" size="12.0" />
+                             </font></Button>
+                     </children>
+                  </FlowPane>
+               </top>
+               <center>
+                  <GridPane BorderPane.alignment="CENTER">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Courses taken:" GridPane.valignment="BOTTOM">
+                           <font>
+                              <Font name="Cambria" size="12.0" />
+                           </font>
+                        </Label>
+                        <ListView fx:id="CoursesTaken" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" GridPane.rowSpan="2147483647" />
+                        <GridPane GridPane.columnIndex="1" GridPane.rowSpan="2147483647">
+                          <columnConstraints>
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Average grade for student:">
+                                 <font>
+                                    <Font name="Cambria" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label text="Average grade for ES1" GridPane.rowIndex="1">
+                                  <font>
+                                      <Font name="Cambria" size="12.0" />
+                                  </font>
+                              </Label>
+                              <Label text="Average grade for SD19" GridPane.rowIndex="2">
+                                  <font>
+                                      <Font name="Cambria" size="12.0" />
+                                  </font>
+                              </Label>
+                              <Label text="Average grade for SD20" GridPane.rowIndex="3">
+                                  <font>
+                                      <Font name="Cambria" size="12.0" />
+                                  </font>
+                              </Label>
+                           </children>
+                        </GridPane>
+                     </children>
+                  </GridPane>
+               </center></BorderPane>
             </content>
         </Tab>
     </tabs>

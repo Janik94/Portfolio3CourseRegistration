@@ -3,10 +3,7 @@ package sample;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class Controller {
@@ -24,6 +21,12 @@ public class Controller {
     public ComboBox comboBoxStudentsForGrade;
     public ComboBox comboBoxCoursesForGrade;
     public ComboBox comboBoxGradesForStudent;
+    public ListView SD19_addStudent;
+    public ListView SD20_addStudent;
+    public ListView ES19_addStudent;
+    public ListView SD19_addGrades;
+    public ListView SD20_addGrades;
+    public ListView ES19_addGrades;
 
     ObservableList<Student> students = FXCollections.observableArrayList();
     ObservableList<Course> courses = FXCollections.observableArrayList();
@@ -60,19 +63,30 @@ public class Controller {
         comboBoxGradesForStudent.setItems(grades);
 
         courses.addAll(new Course("ES1"),new Course("SD19"), new Course("SD20"));
-        grades.addAll(new Grade("03"),new Grade("02"),new Grade("4"),new Grade("7"),new Grade("10"), new Grade("12"));
+        grades.addAll(new Grade("-3"),new Grade("02"),new Grade("4"),new Grade("7"),new Grade("10"), new Grade("12"));
+
+        ES19_addStudent.setItems(courses.get(0).getEnrolledStudents());
+        SD19_addStudent.setItems(courses.get(1).getEnrolledStudents());
+        SD20_addStudent.setItems(courses.get(2).getEnrolledStudents());
+
 
     }
 
     public void AddStudentToCourse(ActionEvent actionEvent) {
         //Actually enroll the students
         //In tab three you should be able to see the enrolled students
-        Course course = (Course) comboBoxCourses.getSelectionModel().getSelectedItem();
-        Student student = (Student) comboBoxStudents.getSelectionModel().getSelectedItem();
-        course.enrollStudent(student);
+        //Course course = (Course) comboBoxCourses.getSelectionModel().getSelectedItem();
+        //Student student = (Student) comboBoxStudents.getSelectionModel().getSelectedItem();
+        //course.enrollStudent(student);
         //System.out.println(comboBoxCourses.getSelectionModel().getSelectedItem());
         //System.out.println(comboBoxStudents.getSelectionModel().getSelectedItem());
-        System.out.println(course.getName() + ": " + course.getEnrolledStudents());
+        //System.out.println(course.getName() + ": " + course.getEnrolledStudents());
+
+        Course course = (Course) comboBoxCourses.getSelectionModel().getSelectedItem();
+        Student student = (Student) comboBoxStudents.getSelectionModel().getSelectedItem();
+        course.getEnrolledStudents().add(student);
+        System.out.println(course.getName()+ " has students: "+course.getEnrolledStudents());
+
     }
 
     public void AddGradeToStudent(ActionEvent actionEvent) {

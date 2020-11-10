@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,14 +26,17 @@ public class Controller {
     public ListView SD19_addStudent;
     public ListView SD20_addStudent;
     public ListView ES19_addStudent;
-    public ListView SD19_addGrades;
-    public ListView SD20_addGrades;
-    public ListView ES19_addGrades;
+    public ListView SD19_StudentID;
+    public ListView SD20_StudentID;
+    public ListView ES19_StudentID;
+    public ListView SD19_grades;
+    public ListView SD20_grades;
+    public ListView ES19_grades;
 
     ObservableList<Student> students = FXCollections.observableArrayList();
     ObservableList<Course> courses = FXCollections.observableArrayList();
     ObservableList<Grade> grades = FXCollections.observableArrayList();
-    ObservableList<Grade> studentGrade = FXCollections.observableArrayList();
+
 
     public void addStudent(ActionEvent actionEvent) {
         Student student = new Student(textFieldFirstName.getText(),textFieldLastName.getText(),textFieldStudentID.getText(), textFieldHometown.getText());
@@ -58,8 +63,19 @@ public class Controller {
 
         comboBoxStudents.setItems(students);
         comboBoxCourses.setItems(courses);
+
         comboBoxCoursesForGrade.setItems(courses);
-        comboBoxStudentsForGrade.setItems(students);
+        Course selectedCourse = (Course) comboBoxCoursesForGrade.getSelectionModel().getSelectedItem();
+        comboBoxCoursesForGrade.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observableValue, Object o, Object t1) {
+                Course selectedCourse = (Course) t1;
+                comboBoxStudentsForGrade.setItems(selectedCourse.getEnrolledStudents());
+                //System.out.println(o);
+                System.out.println(t1);
+            }
+        });
+
         comboBoxGradesForStudent.setItems(grades);
 
         courses.addAll(new Course("ES1"),new Course("SD19"), new Course("SD20"));
@@ -69,6 +85,12 @@ public class Controller {
         SD19_addStudent.setItems(courses.get(1).getEnrolledStudents());
         SD20_addStudent.setItems(courses.get(2).getEnrolledStudents());
 
+        ES19_StudentID.setItems(courses.get(0).getEnrolledStudents());
+        SD19_StudentID.setItems(courses.get(1).getEnrolledStudents());
+        SD20_StudentID.setItems(courses.get(2).getEnrolledStudents());
+        ES19_grades.setItems(courses.get(0).getGradesOfStudents());
+        SD19_grades.setItems(courses.get(1).getGradesOfStudents());
+        SD20_grades.setItems(courses.get(2).getGradesOfStudents());
 
     }
 
@@ -93,7 +115,10 @@ public class Controller {
         Course course = (Course) comboBoxCoursesForGrade.getSelectionModel().getSelectedItem();
         Student student = (Student) comboBoxStudentsForGrade.getSelectionModel().getSelectedItem();
         Grade grade = (Grade) comboBoxGradesForStudent.getSelectionModel().getSelectedItem();
-        studentGrade.add(new Grade(student.getStudentID(),grade.getGrade()));
+
+        course.getGradesOfStudents().add(grade);
+        course.getEnrolledStudents().add(student);
+
         System.out.println(student.getFirstName() + " has grade " + grade.getGrade());
 
     }

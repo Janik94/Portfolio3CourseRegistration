@@ -96,5 +96,28 @@
                 </BorderPane>
             </content>
         </Tab>
+        <Tab text ="Add grade">
+            <content>
+                <BorderPane>
+                    <top>
+                        <FlowPane>
+                            <Label text="Choose student:">
+                                <font>
+                                    <Font name="Cambria" size="12.0" />
+                                </font></Label>
+                            <ComboBox fx:id="comboBoxStudentsForGrade" />
+                            <Label text="Choose Course:" />
+                            <ComboBox fx:id="comboBoxCoursesForGrade" />
+                            <Label text="Select grade" />
+                            <ComboBox fx:id="comboBoxGradesForStudent"/>
+                            <Button onAction="#AddGradeToStudent" text="Add Student">
+                                <font>
+                                    <Font name="Cambria" size="12.0" />
+                                </font></Button>
+                        </FlowPane>
+                    </top>
+                </BorderPane>
+            </content>
+        </Tab>
     </tabs>
 </TabPane>

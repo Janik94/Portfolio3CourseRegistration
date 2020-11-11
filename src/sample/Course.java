@@ -37,6 +37,7 @@ public class Course {
     public boolean enrollStudent(Student student){
         return enrolledStudents.add(student);
     }
+
     @Override
     public String toString() {
         return name;

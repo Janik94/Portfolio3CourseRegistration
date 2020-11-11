@@ -40,6 +40,6 @@ public class Grade {
 
     @Override
     public String toString() {
-        return grade;
+        return " StudentID: "+studentID+" has grade "+grade;
     }
 }

@@ -37,6 +37,9 @@ public class Controller {
     public ListView ES19_grades;
     public ComboBox comboBoxStudentsInfo;
     public ListView CoursesTaken;
+    public ListView AvgCourseGrade;
+    public ListView StudentsGrade;
+    public Label AverageStudentGrade;
 
     ObservableList<Student> students = FXCollections.observableArrayList();
     ObservableList<Course> courses = FXCollections.observableArrayList();
@@ -52,6 +55,9 @@ public class Controller {
 
     //Will be executed only when GUI is ready
     public void initialize() {
+        courses.addAll(new Course("ES1"),new Course("SD19"), new Course("SD20"));
+        grades.addAll(new Grade("-3"),new Grade("00"), new Grade("02"),new Grade("4"),new Grade("7"),new Grade("10"), new Grade("12"));
+        //Add database to javaFX
         String url = "jdbc:sqlite:C:\\Users\\WinSa\\OneDrive\\Dokumenter\\RUC\\Fifth semester\\Software Development\\Programs from class\\Portfolio3CourseRegistration\\StudentsGrades.db";
         GradeModel gradeModel = new GradeModel(url);
         try{
@@ -62,6 +68,32 @@ public class Controller {
             System.out.println(e.getMessage());
         }
         students.addAll(gradeModel.StudentQueryStatement());
+        String sql1 = "select studentID, gradeES1\n" +
+                "from studentWithGrades\n" +
+                "where gradeES1 IS NOT NULL;";
+        courses.get(0).getGradesOfStudents().addAll(gradeModel.CourseQueryStatement(sql1));
+        String sql2 = "select studentID, gradeSD19\n" +
+                "from studentWithGrades\n" +
+                "where gradeSD19 is not null;";
+        courses.get(1).getGradesOfStudents().addAll(gradeModel.CourseQueryStatement(sql2));
+        String sql3 = "select studentID, gradeSD20\n" +
+                "from studentWithGrades\n" +
+                "where gradeSD20 is not null;";
+        courses.get(2).getGradesOfStudents().addAll(gradeModel.CourseQueryStatement(sql3));
+        //System.out.println(courses.get(2).getGradesOfStudents());
+        for (int i = 0; i < students.size(); i++){
+            for (int j = 0; j < courses.size(); j++) {
+                if (courses.get(j).getEnrolledStudents().contains(students.get(i))) {
+                    students.get(i).getAttendedCourses().add(courses.get(j));
+                }
+            }
+        }
+        for (int i = 0; i < students.size(); i++){
+            System.out.println(students.get(i).getAttendedCourses());
+        }
+
+
+        //courses.get(0).getEnrolledStudents()
         tableStudents.setItems(students);
         tableColumnFirstName.setCellValueFactory(
                 new PropertyValueFactory<Student, String>("firstName")
@@ -86,16 +118,17 @@ public class Controller {
             public void changed(ObservableValue observableValue, Object o, Object t1) {
                 Course selectedCourse = (Course) t1;
                 comboBoxStudentsForGrade.setItems(selectedCourse.getEnrolledStudents());
-                //System.out.println(o);
                 System.out.println(t1);
             }
-        });
+        }
+        );
+
+        comboBoxStudentsInfo.setItems(students);
+
 
         comboBoxGradesForStudent.setItems(grades);
         comboBoxStudentsInfo.setItems(students);
 
-        courses.addAll(new Course("ES1"),new Course("SD19"), new Course("SD20"));
-        grades.addAll(new Grade("-3"),new Grade("02"),new Grade("4"),new Grade("7"),new Grade("10"), new Grade("12"));
 
         ES19_addStudent.setItems(courses.get(0).getEnrolledStudents());
         SD19_addStudent.setItems(courses.get(1).getEnrolledStudents());
@@ -123,6 +156,7 @@ public class Controller {
         Course course = (Course) comboBoxCourses.getSelectionModel().getSelectedItem();
         Student student = (Student) comboBoxStudents.getSelectionModel().getSelectedItem();
         course.getEnrolledStudents().add(student);
+        student.getAttendedCourses().add(course);
         System.out.println(course.getName()+ " has students: "+course.getEnrolledStudents());
 
     }

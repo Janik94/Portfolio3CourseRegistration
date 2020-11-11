@@ -1,10 +1,23 @@
 package sample;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class Student {
     private String firstName;
     private String lastName;
     private String studentID;
     private String hometown;
+    private ObservableList<Course> attendedCourses = FXCollections.observableArrayList();
+
+    public ObservableList<Course> getAttendedCourses() {
+        return attendedCourses;
+    }
+
+    public void setAttendedCourses(ObservableList<Course> attendedCourses) {
+        this.attendedCourses = attendedCourses;
+    }
+
 
     public Student(String firstName, String lastName, String studentID, String hometown) {
         this.firstName = firstName;

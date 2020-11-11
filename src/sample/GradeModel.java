@@ -44,4 +44,27 @@ public class GradeModel {
         return students;
     }
 
+    public ArrayList<Grade> CourseQueryStatement(String sql){
+        ArrayList<Grade> grades = new ArrayList<Grade>();
+        /*String sql ="select studentID, gradeSD19\n" +
+                "from studentWithGrades\n" +
+                "where gradeSD19 IS NOT NULL;";
+
+         */
+        ResultSet resultSet;
+        try {
+            resultSet = statement.executeQuery(sql);
+            while (resultSet != null && resultSet.next()){
+                String studentID = resultSet.getString(1);
+                String grade = resultSet.getString(2);
+                grades.add(new Grade(grade, studentID));
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+        return grades;
+    }
+    //Make method that puts grades into a student or course
+
 }

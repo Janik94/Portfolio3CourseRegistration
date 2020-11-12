@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -9,6 +10,22 @@ public class Student {
     private String studentID;
     private String hometown;
     private ObservableList<Course> attendedCourses = FXCollections.observableArrayList();
+    private ObservableList<Grade> gradesOfStudent = FXCollections.observableArrayList();
+    private ObservableList<Double> averageGradeOfAttendedCourses = FXCollections.observableArrayList();
+
+    public void something() {
+        for (int i = 0; i < this.getAttendedCourses().size(); i++){
+            averageGradeOfAttendedCourses.add(this.getAttendedCourses().get(i).averageGradeOfStudent());
+        }
+    }
+
+    public ObservableList<Grade> getGradesOfStudent() {
+        return gradesOfStudent;
+    }
+
+    public ObservableList<Double> getAverageGradeOfAttendedCourses() {
+        return averageGradeOfAttendedCourses;
+    }
 
     public ObservableList<Course> getAttendedCourses() {
         return attendedCourses;

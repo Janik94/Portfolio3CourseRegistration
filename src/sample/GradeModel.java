@@ -44,7 +44,8 @@ public class GradeModel {
         return students;
     }
 
-    public ArrayList<Grade> CourseQueryStatement(String sql){
+
+    public ArrayList<Grade> CourseGradeQueryStatement(String sql){
         ArrayList<Grade> grades = new ArrayList<Grade>();
         /*String sql ="select studentID, gradeSD19\n" +
                 "from studentWithGrades\n" +

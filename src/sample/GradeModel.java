@@ -44,28 +44,70 @@ public class GradeModel {
         return students;
     }
 
-
-    public ArrayList<Grade> CourseGradeQueryStatement(String sql){
-        ArrayList<Grade> grades = new ArrayList<Grade>();
-        /*String sql ="select studentID, gradeSD19\n" +
-                "from studentWithGrades\n" +
-                "where gradeSD19 IS NOT NULL;";
-
-         */
-        ResultSet resultSet;
-        try {
-            resultSet = statement.executeQuery(sql);
-            while (resultSet != null && resultSet.next()){
-                String studentID = resultSet.getString(1);
-                String grade = resultSet.getString(2);
-                grades.add(new Grade(grade, studentID));
-            }
-        } catch (SQLException e){
-            e.printStackTrace();
-            System.out.println(e.getMessage());
+    public ArrayList<Grade> studentGradePreparedStatement(String studentId, String courseID) throws SQLException {
+        ArrayList<Grade> grades = new ArrayList<>();
+        String sql = "select grade\n" +
+                "from studentCourseGrade\n" +
+                "where studentID is ? and courseID is ?;";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1,studentId);
+        preparedStatement.setString(2,courseID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet == null){
+            System.out.println("No data retrieved");
+        }
+        while (resultSet != null && resultSet.next()){
+            String grade = resultSet.getString(1);
+            grades.add(new Grade(grade,studentId));
         }
         return grades;
     }
-    //Make method that puts grades into a student or course
+    public ArrayList<Grade> CourseGradePreparedStatement(String courseID) throws SQLException {
+        ArrayList<Grade> grades = new ArrayList<>();
+        String sql = "select grade, studentID\n" +
+                "from studentCourseGrade\n" +
+                "where courseID is ? ;";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1,courseID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet == null){
+            System.out.println("No data retrieved");
+        }
+        while (resultSet != null && resultSet.next()){
+            String grade = resultSet.getString(1);
+            String studentID = resultSet.getString(2);
+            grades.add(new Grade(grade, studentID));
+        }
+        return grades;
+    }
 
+    public String getAverage(String id, String sql) throws SQLException {
+        String grade = null;
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1,id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet == null){
+            System.out.println("No data retrieved");
+        }
+        while (resultSet != null && resultSet.next()){
+            grade = resultSet.getString(1);
+    }
+        return grade;
+    }
+
+    public String courseAVGPreparedStatement( String id) throws SQLException{
+        String sql="select AVG(grade)\n" +
+                "from studentCourseGrade\n" +
+                "where courseID is ?;";
+
+        return getAverage(id,sql);
+    }
+
+    public String studentAVGPreparedStatement( String id) throws SQLException{
+        String sql="select AVG(grade)\n" +
+                "from studentCourseGrade\n" +
+                "where studentID is ?;";
+
+        return getAverage(id,sql);
+    }
 }

@@ -4,26 +4,27 @@ import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
+
 public class Student {
     private String firstName;
     private String lastName;
     private String studentID;
     private String hometown;
     private ObservableList<Course> attendedCourses = FXCollections.observableArrayList();
-    private ObservableList<Grade> gradesOfStudent = FXCollections.observableArrayList();
-    private ObservableList<Double> averageGradeOfAttendedCourses = FXCollections.observableArrayList();
+    private ObservableList<Grade> myGradeinAttendedCourses = FXCollections.observableArrayList();
+    private ObservableList<String> averageGradeOfAttendedCourses = FXCollections.observableArrayList();
 
-    public void something() {
-        for (int i = 0; i < this.getAttendedCourses().size(); i++){
-            averageGradeOfAttendedCourses.add(this.getAttendedCourses().get(i).averageGradeOfStudent());
-        }
+    public String averageGradeOfAttendedCourses(GradeModel gradeModel) throws SQLException {
+        return gradeModel.studentAVGPreparedStatement(studentID);
     }
 
-    public ObservableList<Grade> getGradesOfStudent() {
-        return gradesOfStudent;
+
+    public ObservableList<Grade> getMyGradeinAttendedCourses() {
+        return myGradeinAttendedCourses;
     }
 
-    public ObservableList<Double> getAverageGradeOfAttendedCourses() {
+    public ObservableList<String> getAverageGradeOfAttendedCourses() {
         return averageGradeOfAttendedCourses;
     }
 

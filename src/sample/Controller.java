@@ -45,11 +45,11 @@ public class Controller {
     ObservableList<Student> students = FXCollections.observableArrayList();
     ObservableList<Course> courses = FXCollections.observableArrayList();
     ObservableList<Grade> grades = FXCollections.observableArrayList();
-    ObservableList<String> SelectedStudentsGrades = FXCollections.observableArrayList();
-    ObservableList<Double> selectedStudentAVGCourse = FXCollections.observableArrayList();
+    ObservableList<String> AVGStudent = FXCollections.observableArrayList();
+    ObservableList<String> AVGCourse = FXCollections.observableArrayList();
 
 
-    public void databaseInclusion(){
+    public void databaseInclusion() throws SQLException {
        //Add database to javaFX
         String url = "jdbc:sqlite:C:\\Users\\WinSa\\OneDrive\\Dokumenter\\RUC\\Fifth semester\\Software Development\\Programs from class\\Portfolio3CourseRegistration\\StudentsGrades.db";
         GradeModel gradeModel = new GradeModel(url);
@@ -61,20 +61,29 @@ public class Controller {
             System.out.println(e.getMessage());
         }
         students.addAll(gradeModel.StudentQueryStatement());
-        String sql1 = "select studentID, gradeES1\n" +
-                "from studentWithGrades\n" +
-                "where gradeES1 IS NOT NULL;";
-        courses.get(0).getGradesOfStudents().addAll(gradeModel.CourseGradeQueryStatement(sql1));
-        String sql2 = "select studentID, gradeSD19\n" +
-                "from studentWithGrades\n" +
-                "where gradeSD19 is not null;";
-        courses.get(1).getGradesOfStudents().addAll(gradeModel.CourseGradeQueryStatement(sql2));
-        String sql3 = "select studentID, gradeSD20\n" +
-                "from studentWithGrades\n" +
-                "where gradeSD20 is not null;";
-        courses.get(2).getGradesOfStudents().addAll(gradeModel.CourseGradeQueryStatement(sql3));
+        courses.get(0).getGradesOfStudents().addAll(gradeModel.CourseGradePreparedStatement("ES1"));
+        courses.get(1).getGradesOfStudents().addAll(gradeModel.CourseGradePreparedStatement("SD19"));
+        courses.get(2).getGradesOfStudents().addAll(gradeModel.CourseGradePreparedStatement("SD20"));
         databaseEnrollStudents();
+        for (int i = 0; i < courses.size(); i++){
+            AVGCourse.add(courses.get(i).averageGradeOfCourse(gradeModel));
+        }
+        System.out.println(AVGCourse);
+
+        for (int i = 0; i < students.size(); i++){
+           AVGStudent.add(students.get(i).averageGradeOfAttendedCourses(gradeModel));
+        }
+
+        for (int j = 0; j < courses.size(); j++){
+            for (int i = 0; i < students.size(); i++) {
+            students.get(i).getMyGradeinAttendedCourses().addAll(gradeModel.studentGradePreparedStatement(students.get(i).getStudentID(), courses.get(j).getName()));
+            //System.out.println(students.get(i).getMyGradeinAttendedCourses());
+            }
+        }
+
+
     }
+
     public void databaseEnrollStudents(){
         for (int m = 0; m <courses.size(); m++){
             for (int j = 0; j <students.size(); j++) { //Runs through all students
@@ -86,7 +95,6 @@ public class Controller {
                 }
             }
         }
-
         //System.out.println(courses.get(2).getGradesOfStudents());
         for (int i = 0; i < students.size(); i++){
             for (int j = 0; j < courses.size(); j++) {
@@ -98,6 +106,7 @@ public class Controller {
         for (int i = 0; i < students.size(); i++){
             System.out.println(students.get(i).getAttendedCourses());
         }
+
     }
     public void fillTab2(){
         tableStudents.setItems(students);
@@ -152,19 +161,15 @@ public class Controller {
                 Student selectedStudent = (Student) t1;
                 CoursesTaken.setItems(selectedStudent.getAttendedCourses());
                 //We want the particular grade this particular student got for the attended courses
-                for (int i = 0; i < selectedStudent.getAttendedCourses().size(); i++) {//We go trough all the courses selctedStudents attends
-                    for (int j = 0; j < selectedStudent.getAttendedCourses().get(i).getGradesOfStudents().size(); j++) { //Runs through all students in the first course
-                        if (selectedStudent.getAttendedCourses().get(i).getGradesOfStudents().get(j).getStudentID().equals(selectedStudent.getStudentID())) {
-                            //then we want to fetch the grade SelectedStudent StudentID got in first course
-                            SelectedStudentsGrades.add(selectedStudent.getAttendedCourses().get(i).getGradesOfStudents().get(j).getGrade());
-                        }
-                    }
-                }
-                selectedStudent.something();
-                StudentsGrade.setItems(SelectedStudentsGrades);
+                StudentsGrade.setItems(selectedStudent.getMyGradeinAttendedCourses());
+                AvgCourseGrade.setItems(selectedStudent.getAverageGradeOfAttendedCourses());
+
+
+                //selectedStudent.something();
+                //StudentsGrade.setItems(SelectedStudentsGrades);
 
                 //System.out.println(selectedStudent.getAttendedCourses()+" has AVG grades "+ selectedStudent.getAverageGradeOfAttendedCourses());
-                AvgCourseGrade.setItems(selectedStudent.getAverageGradeOfAttendedCourses());
+                //AvgCourseGrade.setItems(selectedStudent.getAverageGradeOfAttendedCourses());
                 //System.out.println(selectedStudentAVGCourse);
             }
         }
@@ -172,7 +177,7 @@ public class Controller {
     }
 
     //Will be executed only when GUI is ready
-    public void initialize() {
+    public void initialize() throws SQLException {
         courses.addAll(new Course("ES1"),new Course("SD19"), new Course("SD20"));
         grades.addAll(new Grade("-3"),new Grade("00"), new Grade("02"),new Grade("4"),new Grade("7"),new Grade("10"), new Grade("12"));
         databaseInclusion();

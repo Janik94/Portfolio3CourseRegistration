@@ -68,20 +68,28 @@ public class Controller {
         for (int i = 0; i < courses.size(); i++){
             AVGCourse.add(courses.get(i).averageGradeOfCourse(gradeModel));
         }
-        System.out.println(AVGCourse);
 
         for (int i = 0; i < students.size(); i++){
-           AVGStudent.add(students.get(i).averageGradeOfAttendedCourses(gradeModel));
+            AVGStudent.add(students.get(i).averageGradeOfAttendedCourses(gradeModel));
         }
 
         for (int j = 0; j < courses.size(); j++){
             for (int i = 0; i < students.size(); i++) {
-            students.get(i).getMyGradeinAttendedCourses().addAll(gradeModel.studentGradePreparedStatement(students.get(i).getStudentID(), courses.get(j).getName()));
-            //System.out.println(students.get(i).getMyGradeinAttendedCourses());
+                students.get(i).getMyGradeinAttendedCourses().addAll(gradeModel.studentGradePreparedStatement(students.get(i).getStudentID(), courses.get(j).getName()));
             }
         }
 
-
+        System.out.println(AVGCourse);
+        for (int k = 0; k < courses.size(); k++) {
+            for (int i = 0; i < students.size(); i++) {
+                for (int j = 0; j < students.get(i).getAttendedCourses().size(); j++) {
+                    if (courses.get(k).equals(students.get(i).getAttendedCourses().get(j))) {
+                        students.get(i).getAverageGradeOfAttendedCourses().add(AVGCourse.get(k));
+                        System.out.println(students.get(i).getAverageGradeOfAttendedCourses());
+                    }
+                }
+            }
+        }
     }
 
     public void databaseEnrollStudents(){
@@ -163,7 +171,7 @@ public class Controller {
                 //We want the particular grade this particular student got for the attended courses
                 StudentsGrade.setItems(selectedStudent.getMyGradeinAttendedCourses());
                 AvgCourseGrade.setItems(selectedStudent.getAverageGradeOfAttendedCourses());
-
+                AverageStudentGrade.setText(selectedStudent.getMyAverage());
 
                 //selectedStudent.something();
                 //StudentsGrade.setItems(SelectedStudentsGrades);
@@ -174,6 +182,7 @@ public class Controller {
             }
         }
         );
+
     }
 
     //Will be executed only when GUI is ready
@@ -216,11 +225,5 @@ public class Controller {
 
         System.out.println(student.getFirstName() + " has grade " + grade.getGrade());
 
-    }
-
-    //Tab 5 button
-    public void checkStudent(ActionEvent actionEvent) {
-        Student student = (Student) comboBoxStudentsInfo.getSelectionModel().getSelectedItem();
-        //If student is in course add course to listView
     }
 }

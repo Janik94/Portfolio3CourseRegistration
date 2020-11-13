@@ -15,10 +15,16 @@ public class Student {
     private ObservableList<Grade> myGradeinAttendedCourses = FXCollections.observableArrayList();
     private ObservableList<String> averageGradeOfAttendedCourses = FXCollections.observableArrayList();
 
-    public String averageGradeOfAttendedCourses(GradeModel gradeModel) throws SQLException {
-        return gradeModel.studentAVGPreparedStatement(studentID);
+    public String getMyAverage() {
+        return myAverage;
     }
 
+    private String myAverage;
+
+    public String averageGradeOfAttendedCourses(GradeModel gradeModel) throws SQLException {
+        myAverage = gradeModel.studentAVGPreparedStatement(studentID);
+        return myAverage;
+    }
 
     public ObservableList<Grade> getMyGradeinAttendedCourses() {
         return myGradeinAttendedCourses;

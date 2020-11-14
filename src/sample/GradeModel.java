@@ -99,14 +99,15 @@ public class GradeModel {
         String sql="select AVG(grade)\n" +
                 "from studentCourseGrade\n" +
                 "where courseID is ?;";
-
-        return getAverage(id,sql);
+        String result = getAverage(id,sql);
+        if (result.equals("0.0")) return "On going";
+        return result;
     }
 
     public String studentAVGPreparedStatement( String id) throws SQLException{
         String sql="select AVG(grade)\n" +
                 "from studentCourseGrade\n" +
-                "where studentID is ?;";
+                "where grade != 'On going' and studentID is ?;";
 
         return getAverage(id,sql);
     }

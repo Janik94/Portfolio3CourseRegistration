@@ -257,10 +257,6 @@
                            </font>
                         </Label>
                         <ComboBox fx:id="comboBoxStudentsInfo" prefWidth="150.0" />
-                         <Button onAction="#checkStudent" text="Check student info" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                             <font>
-                                 <Font name="Cambria" size="12.0" />
-                             </font></Button>
                         <Label text="Average grade for student: " />
                         <Label fx:id="AverageStudentGrade" text="Label" />
                      </children>
@@ -290,9 +286,9 @@
                               <Font name="Cambria" size="12.0" />
                            </font>
                         </Label>
-                        <Label  text="Average grade for course" GridPane.columnIndex="2" GridPane.valignment="BOTTOM" />
+                        <Label text="Average grade for course" GridPane.columnIndex="2" GridPane.valignment="BOTTOM" />
                         <ListView fx:id="StudentsGrade" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="2147483647" />
-                        <ListView  fx:id="AvgCourseGrade" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.rowSpan="2147483647" />
+                        <ListView fx:id="AvgCourseGrade" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.rowSpan="2147483647" />
                      </children>
                   </GridPane>
                </center></BorderPane>

@@ -27,6 +27,7 @@ public class Controller {
     public ComboBox comboBoxStudentsForGrade;
     public ComboBox comboBoxCoursesForGrade;
     public ComboBox comboBoxGradesForStudent;
+    public ComboBox comboBoxStudentsInfo;
     public ListView SD19_addStudent;
     public ListView SD20_addStudent;
     public ListView ES19_addStudent;
@@ -36,7 +37,6 @@ public class Controller {
     public ListView SD19_grades;
     public ListView SD20_grades;
     public ListView ES19_grades;
-    public ComboBox comboBoxStudentsInfo;
     public ListView CoursesTaken;
     public ListView AvgCourseGrade;
     public ListView StudentsGrade;
@@ -145,6 +145,7 @@ public class Controller {
     public void fillTab4(){
         comboBoxCoursesForGrade.setItems(courses);
         comboBoxGradesForStudent.setItems(grades);
+
         Course selectedCourse = (Course) comboBoxCoursesForGrade.getSelectionModel().getSelectedItem();
         comboBoxCoursesForGrade.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override

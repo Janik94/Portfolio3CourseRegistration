@@ -152,16 +152,16 @@
                 <BorderPane>
                     <top>
                         <FlowPane>
-                            <Label text="Choose student:">
-                                <font>
-                                    <Font name="Cambria" size="12.0" />
-                                </font></Label>
-                            <ComboBox fx:id="comboBoxStudentsForGrade" />
                             <Label text="Choose Course:">
                         <font>
                            <Font name="Cambria" size="12.0" />
                         </font></Label>
                             <ComboBox fx:id="comboBoxCoursesForGrade" />
+                            <Label text="Choose student:">
+                                <font>
+                                    <Font name="Cambria" size="12.0" />
+                                </font></Label>
+                            <ComboBox fx:id="comboBoxStudentsForGrade" />
                             <Label text="Select grade">
                         <font>
                            <Font name="Cambria" size="12.0" />

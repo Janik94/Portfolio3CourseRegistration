@@ -41,6 +41,8 @@ public class Controller {
     public ListView AvgCourseGrade;
     public ListView StudentsGrade;
     public Label AverageStudentGrade;
+    public Label AverageGradeForSelectedStudent;
+    public Label SelectedStudentsGrades;
 
     ObservableList<Student> students = FXCollections.observableArrayList();
     ObservableList<Course> courses = FXCollections.observableArrayList();
@@ -173,6 +175,8 @@ public class Controller {
                 StudentsGrade.setItems(selectedStudent.getMyGradeinAttendedCourses());
                 AvgCourseGrade.setItems(selectedStudent.getAverageGradeOfAttendedCourses());
                 AverageStudentGrade.setText(selectedStudent.getMyAverage());
+                AverageGradeForSelectedStudent.setText(selectedStudent.getFirstName()+" "+selectedStudent.getLastName()+ "'s average is: ");
+                SelectedStudentsGrades.setText(selectedStudent.getFirstName()+" "+selectedStudent.getLastName()+ "'s grades: ");
 
                 //selectedStudent.something();
                 //StudentsGrade.setItems(SelectedStudentsGrades);

@@ -54,7 +54,7 @@
                         <GridPane.margin>
                             <Insets left="20.0" right="10.0" />
                         </GridPane.margin></TextField>
-                    <Button onAction="#addStudent" text="Add new student" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                    <Button onAction="#addStudent" prefHeight="24.0" prefWidth="109.0" text="Add new student" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                         <font>
                             <Font name="Cambria" size="12.0" />
                         </font></Button>
@@ -257,8 +257,8 @@
                            </font>
                         </Label>
                         <ComboBox fx:id="comboBoxStudentsInfo" prefWidth="150.0" />
-                        <Label text="Average grade for student: " />
-                        <Label fx:id="AverageStudentGrade" text="Label" />
+                        <Label fx:id="AverageGradeForSelectedStudent" text="Average grade for student: " />
+                        <Label fx:id="AverageStudentGrade" text="Average Grade" />
                      </children>
                   </FlowPane>
                </top>
@@ -275,18 +275,18 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label text="Courses taken:" GridPane.valignment="BOTTOM">
+                        <Label text="Courses taken:" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                            <font>
                               <Font name="Cambria" size="12.0" />
                            </font>
                         </Label>
                         <ListView fx:id="CoursesTaken" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" GridPane.rowSpan="2147483647" />
-                        <Label text="Students grade" GridPane.columnIndex="1" GridPane.valignment="BOTTOM">
+                        <Label fx:id="SelectedStudentsGrades" text="Students grade" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                            <font>
                               <Font name="Cambria" size="12.0" />
                            </font>
                         </Label>
-                        <Label text="Average grade for course" GridPane.columnIndex="2" GridPane.valignment="BOTTOM" />
+                        <Label text="Average grade for course" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                         <ListView fx:id="StudentsGrade" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="2147483647" />
                         <ListView fx:id="AvgCourseGrade" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.rowSpan="2147483647" />
                      </children>

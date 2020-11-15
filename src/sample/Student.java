@@ -12,35 +12,13 @@ public class Student {
     private String studentID;
     private String hometown;
     private String myAverage;
+
+    //A student will have an array list of attendedCourses
+    //and an array list of this students grade in their attended courses at the corresponding index,
+    //and an array list of which the average grade of the attended courses at the corresponding index.
     private ObservableList<Course> attendedCourses = FXCollections.observableArrayList();
     private ObservableList<Grade> myGradeinAttendedCourses = FXCollections.observableArrayList();
     private ObservableList<String> averageGradeOfAttendedCourses = FXCollections.observableArrayList();
-
-    public String getMyAverage() {
-        return myAverage;
-    }
-
-    public String averageGradeOfAttendedCourses(GradeModel gradeModel) throws SQLException {
-        myAverage = gradeModel.studentAVGPreparedStatement(studentID);
-        return myAverage;
-    }
-
-    public ObservableList<Grade> getMyGradeinAttendedCourses() {
-        return myGradeinAttendedCourses;
-    }
-
-    public ObservableList<String> getAverageGradeOfAttendedCourses() {
-        return averageGradeOfAttendedCourses;
-    }
-
-    public ObservableList<Course> getAttendedCourses() {
-        return attendedCourses;
-    }
-
-    public void setAttendedCourses(ObservableList<Course> attendedCourses) {
-        this.attendedCourses = attendedCourses;
-    }
-
 
     public Student(String firstName, String lastName, String studentID, String hometown) {
         this.firstName = firstName;
@@ -48,6 +26,14 @@ public class Student {
         this.studentID = studentID;
         this.hometown = hometown;
     }
+
+    public Student() {
+        firstName = "null";
+        lastName = "null";
+        studentID = "null";
+        hometown = "null";
+    }
+
 
     public String getFirstName() {
         return firstName;
@@ -81,16 +67,36 @@ public class Student {
         this.hometown = hometown;
     }
 
-    public String info() {
-        return "Student{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", studentID='" + studentID + '\'' +
-                '}';
+    //A students average is calculated through a prepared statement and SQL query.
+    public String myAverageGrade(GradeModel gradeModel) throws SQLException {
+        myAverage = gradeModel.studentAVGPreparedStatement(studentID);
+        return myAverage;
     }
+
+    public String getMyAverage() {
+        return myAverage;
+    }
+
+    public ObservableList<Grade> getMyGradeinAttendedCourses() {
+        return myGradeinAttendedCourses;
+    }
+
+    public ObservableList<String> getAverageGradeOfAttendedCourses() {
+        return averageGradeOfAttendedCourses;
+    }
+
+    public ObservableList<Course> getAttendedCourses() {
+        return attendedCourses;
+    }
+
+    public void setAttendedCourses(ObservableList<Course> attendedCourses) {
+        this.attendedCourses = attendedCourses;
+    }
+
 
     @Override
     public String toString() {
         return firstName + " " + lastName;
     }
+
 }

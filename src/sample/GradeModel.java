@@ -8,21 +8,24 @@ import static java.sql.DriverManager.getConnection;
 public class GradeModel {
     Connection connection = null;
     Statement statement = null;
-    PreparedStatement preparedStatement = null;
     String url;
 
     public GradeModel(String url) {
         this.url = url;
     }
 
+    //Attempts to establish a connection to the given database URL of the form jdbc:subprotocol:subname.
     public void connect() throws SQLException{
         connection = getConnection(this.url);
     }
 
+    //Creates a Statement object for sending SQL statements to the database.
     public void createStatement() throws SQLException{
         this.statement = connection.createStatement();
     }
 
+    //Returns an array list of "Student"-objects with all the students from the database (table studentInfo).
+    //statement.executeQuery is written inside a Try-Catch statement because it throws an SQLException.
     public ArrayList<Student> StudentQueryStatement(){
         ArrayList<Student> students = new ArrayList<Student>();
         String sql = "select studentID, firstName, lastName, hometown\n" +
@@ -44,6 +47,8 @@ public class GradeModel {
         return students;
     }
 
+    //Takes as input of courseID and studentID. Creates and returns an array list of "Grade" objects with
+    //this students (studentID) grade for this course (CourseID).
     public ArrayList<Grade> studentGradePreparedStatement(String studentId, String courseID) throws SQLException {
         ArrayList<Grade> grades = new ArrayList<>();
         String sql = "select grade\n" +
@@ -62,6 +67,8 @@ public class GradeModel {
         }
         return grades;
     }
+
+    //Returns an array list of "Grade" object withe the grades from the database where the courseID is the input courseID.
     public ArrayList<Grade> CourseGradePreparedStatement(String courseID) throws SQLException {
         ArrayList<Grade> grades = new ArrayList<>();
         String sql = "select grade, studentID\n" +
@@ -81,6 +88,7 @@ public class GradeModel {
         return grades;
     }
 
+    //returns the average grade specified in the input sql String for that particular id (either CourseID or StudentID).
     public String getAverage(String id, String sql) throws SQLException {
         String grade = null;
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -95,6 +103,8 @@ public class GradeModel {
         return grade;
     }
 
+    //Helper method for getAverage that sets the SQL statement to be the one that will find the average of the courses grades.
+    //In case the average is 0.0 it means that the students of this course have not been graded yet and therefore it returns "on going",
     public String courseAVGPreparedStatement( String id) throws SQLException{
         String sql="select AVG(grade)\n" +
                 "from studentCourseGrade\n" +
@@ -104,6 +114,8 @@ public class GradeModel {
         return result;
     }
 
+    //Helper method for getAverage that sets the SQL statement to be the one that will find the average of the students
+    // grades for all the subject the student has been graded.
     public String studentAVGPreparedStatement( String id) throws SQLException{
         String sql="select AVG(grade)\n" +
                 "from studentCourseGrade\n" +

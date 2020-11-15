@@ -10,6 +10,10 @@ public class Grade {
         this.studentID = studentID;
     }
 
+    public Grade() {
+        this.grade = null;
+    }
+
     public Grade(String grade) {
         this.grade = grade;
     }
@@ -35,7 +39,7 @@ public class Grade {
     }
 
     public void setCourseName(String courseName) {
-        this.courseName = courseName;
+        this.courseName= courseName;
     }
 
     @Override

@@ -123,4 +123,24 @@ public class GradeModel {
 
         return getAverage(id,sql);
     }
+
+    public String courseNamePreparedStatement(String courseID, String studentID) throws SQLException {
+        String courseName = null;
+        String sql = "select C.courseName\n"+
+                "from courses C\n"+
+                "join grade G on C.courseID = ? and G.studentID = ?\n"+
+                "where G.courseID = C.courseID";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1,courseID);
+        preparedStatement.setString(2,studentID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet == null){
+            System.out.println("No data retrieved");
+        }
+        while (resultSet != null && resultSet.next()){
+            courseName = resultSet.getString(1);
+        }
+        return courseName;
+    }
+
 }

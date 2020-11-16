@@ -17,6 +17,7 @@ public class Student {
     //and an array list of this students grade in their attended courses at the corresponding index,
     //and an array list of which the average grade of the attended courses at the corresponding index.
     private ObservableList<Course> attendedCourses = FXCollections.observableArrayList();
+    private ObservableList<String> nameOfAttendedCourses = FXCollections.observableArrayList();
     private ObservableList<Grade> myGradeinAttendedCourses = FXCollections.observableArrayList();
     private ObservableList<String> averageGradeOfAttendedCourses = FXCollections.observableArrayList();
 
@@ -93,10 +94,22 @@ public class Student {
         this.attendedCourses = attendedCourses;
     }
 
+    public ObservableList<String> nameOfAttendedCourse(GradeModel gradeModel) throws SQLException {
+        for (int i = 0; i < attendedCourses.size();i++)
+        nameOfAttendedCourses.add(gradeModel.courseNamePreparedStatement(attendedCourses.get(i).getName(), studentID));
+        return  nameOfAttendedCourses;
+    }
 
+
+    public ObservableList<String> getNameOfAttendedCourses() {
+        return nameOfAttendedCourses;
+    }
+
+    public void setNameOfAttendedCourses(ObservableList<String> nameOfAttendedCourses) {
+        this.nameOfAttendedCourses = nameOfAttendedCourses;
+    }
     @Override
     public String toString() {
         return firstName + " " + lastName;
     }
-
 }

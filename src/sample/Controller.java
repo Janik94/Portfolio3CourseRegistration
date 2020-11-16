@@ -43,7 +43,7 @@ public class Controller {
     public Label AverageStudentGrade;
     public Label AverageGradeForSelectedStudent;
     public Label SelectedStudentsGrades;
-    public Student student = new Student();
+    //public Student student = new Student();
 
     ObservableList<Student> students = FXCollections.observableArrayList();
     ObservableList<Course> courses = FXCollections.observableArrayList();
@@ -66,8 +66,8 @@ public class Controller {
     //This method takes the information from the database and adds it to this program.
     public void databaseInclusion() throws SQLException {
        //The connection to the database is established.
-        String url = "jdbc:sqlite:C:\\Users\\WinSa\\OneDrive\\Dokumenter\\RUC\\Fifth semester\\Software Development\\Programs from class\\Portfolio3CourseRegistration\\StudentsGrades.db";
-        //String url = "jdbc:sqlite:/Users/namra/Documents/GitHub/Portfolio3CourseRegistration/StudentsGrades.db";
+        //String url = "jdbc:sqlite:C:\\Users\\WinSa\\OneDrive\\Dokumenter\\RUC\\Fifth semester\\Software Development\\Programs from class\\Portfolio3CourseRegistration\\StudentsGrades.db";
+        String url = "jdbc:sqlite:/Users/namra/Documents/GitHub/Portfolio3CourseRegistration/StudentsGrades.db";
         GradeModel gradeModel = new GradeModel(url);
         try{
             gradeModel.connect();
@@ -116,6 +116,11 @@ public class Controller {
                 }
             }
         }
+
+        for (int i= 0; i < students.size();i++) {
+            students.get(i).nameOfAttendedCourse(gradeModel);
+        }
+
     }
 
     //The list of attended courses for all students, and the list of enrolled students for all courses is filled.
@@ -196,7 +201,9 @@ public class Controller {
             @Override
             public void changed(ObservableValue observableValue, Object o, Object t1) {
                 Student selectedStudent = (Student) t1;
-                CoursesTaken.setItems(selectedStudent.getAttendedCourses());
+
+
+                CoursesTaken.setItems(selectedStudent.getNameOfAttendedCourses());
                 //We want the particular grade this particular student got for the attended courses
                 StudentsGrade.setItems(selectedStudent.getMyGradeinAttendedCourses());
                 AvgCourseGrade.setItems(selectedStudent.getAverageGradeOfAttendedCourses());
@@ -221,6 +228,7 @@ public class Controller {
     //Tab 1 button
     //This tab allows another student to be added inside the GUI when the button is clicked.
     public void addStudent(ActionEvent actionEvent) {
+        Student student = new Student();
          student.setFirstName(textFieldFirstName.getText());
          student.setLastName(textFieldLastName.getText());
          student.setStudentID(textFieldStudentID.getText());

@@ -29,7 +29,7 @@ public class GradeModel {
     public ArrayList<Student> StudentQueryStatement(){
         ArrayList<Student> students = new ArrayList<Student>();
         String sql = "select studentID, firstName, lastName, hometown\n" +
-                "from studentInfo";
+                "from students";
         ResultSet resultSet;
         try {
             resultSet = statement.executeQuery(sql);
@@ -52,7 +52,7 @@ public class GradeModel {
     public ArrayList<Grade> studentGradePreparedStatement(String studentId, String courseID) throws SQLException {
         ArrayList<Grade> grades = new ArrayList<>();
         String sql = "select grade\n" +
-                "from studentCourseGrade\n" +
+                "from grade\n" +
                 "where studentID is ? and courseID is ?;";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1,studentId);
@@ -72,7 +72,7 @@ public class GradeModel {
     public ArrayList<Grade> CourseGradePreparedStatement(String courseID) throws SQLException {
         ArrayList<Grade> grades = new ArrayList<>();
         String sql = "select grade, studentID\n" +
-                "from studentCourseGrade\n" +
+                "from grade\n" +
                 "where courseID is ? ;";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1,courseID);
@@ -107,7 +107,7 @@ public class GradeModel {
     //In case the average is 0.0 it means that the students of this course have not been graded yet and therefore it returns "on going",
     public String courseAVGPreparedStatement( String id) throws SQLException{
         String sql="select AVG(grade)\n" +
-                "from studentCourseGrade\n" +
+                "from grade\n" +
                 "where courseID is ?;";
         String result = getAverage(id,sql);
         if (result.equals("0.0")) return "On going";
@@ -118,7 +118,7 @@ public class GradeModel {
     // grades for all the subject the student has been graded.
     public String studentAVGPreparedStatement( String id) throws SQLException{
         String sql="select AVG(grade)\n" +
-                "from studentCourseGrade\n" +
+                "from grade\n" +
                 "where grade != 'On going' and studentID is ?;";
 
         return getAverage(id,sql);

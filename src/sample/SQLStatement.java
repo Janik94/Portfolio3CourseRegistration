@@ -165,6 +165,24 @@ public class SQLStatement {
         return enrolledStudents;
     }
 
+    public ArrayList<Course> studentAttendedCourses(String studentID) throws SQLException {
+            ArrayList<Course> attendedCourses = new ArrayList<Course>();
+            String sql = "select courseID\n" +
+                    "from grade\n" +
+                    "where studentID is ?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,studentID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet == null){
+            System.out.println("No data retrieved");
+        }
+        while (resultSet != null && resultSet.next()){
+            String course = resultSet.getString(1);
+            attendedCourses.add(new Course(course));
+        }
+        return attendedCourses;
+    }
+
     public void addNewStudent(String firstName, String lastName, String studentID, String hometown)  {
         try {
         String sql = "insert into students (studentID, firstName, lastName, hometown) values (?,?,?,?);";
@@ -209,5 +227,7 @@ public class SQLStatement {
             System.out.println(e.getMessage());
         }
     }
+
+
 
 }

@@ -120,7 +120,6 @@ public class GradeModel {
         String sql="select AVG(grade)\n" +
                 "from grade\n" +
                 "where grade != 'On going' and studentID is ?;";
-
         return calculateAverage(id,sql);
     }
 

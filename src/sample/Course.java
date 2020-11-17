@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Course {
 
-    private String name;
+    private String courseID;
 
     //A course has an observable array list of all the enrolled students.
     //and in another observable list the grade of that student at the corresponding index
@@ -18,15 +18,15 @@ public class Course {
 
 
     public Course(String name) {
-        this.name = name;
+        this.courseID = name;
     }
 
-    public String getName() {
-        return name;
+    public String getCourseID() {
+        return courseID;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.courseID = name;
     }
 
     public ObservableList<Student> getEnrolledStudents() {
@@ -42,7 +42,7 @@ public class Course {
     }
     //A method that returns the average grade of the course through a prepared statement and SQL query.
     public String averageGradeOfCourse(GradeModel gradeModel) throws SQLException {
-        return gradeModel.courseAVGPreparedStatement(this.name);
+        return gradeModel.courseAVGPreparedStatement(this.courseID);
     }
 
     public boolean enrollStudent(Student student){
@@ -51,6 +51,6 @@ public class Course {
 
     @Override
     public String toString() {
-        return name;
+        return courseID;
     }
 }

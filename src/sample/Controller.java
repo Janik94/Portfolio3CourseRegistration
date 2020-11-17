@@ -91,7 +91,7 @@ public class Controller {
         databaseEnrollStudents();
         //grades of students are added here to the each of the courses.
             for (int i = 0; i < courses.size(); i++){
-                courses.get(i).getGradesOfStudents().addAll(gradeModel.courseGradePreparedStatement(courses.get(i).getName()));
+                courses.get(i).getGradesOfStudents().addAll(gradeModel.courseGradePreparedStatement(courses.get(i).getCourseID()));
             }
 
         //The list of attended courses for all students, and the list of enrolled students for all courses is filled.
@@ -111,7 +111,7 @@ public class Controller {
         //Fills the arrayList for ith student with the ith students grade in each of their attended courses at the corresponding index of attended courses.
             for (int i = 0; i < students.size(); i++) {
                 for (int j = 0; j < students.get(i).getAttendedCourses().size(); j++) {
-                students.get(i).getMyGradeinAttendedCourses().addAll(gradeModel.studentGradePreparedStatement(students.get(i).getStudentID(), students.get(i).getAttendedCourses().get(j).getName()));
+                students.get(i).getMyGradeinAttendedCourses().addAll(gradeModel.studentGradePreparedStatement(students.get(i).getStudentID(), students.get(i).getAttendedCourses().get(j).getCourseID()));
             }
         }
 
@@ -137,7 +137,7 @@ public class Controller {
     public void databaseEnrollStudents() throws SQLException{
         GradeModel gradeModel = initGradeModel();
         for (int i= 0; i <courses.size();i++) {
-            courses.get(i).getEnrolledStudents().addAll(gradeModel.studentEnrolledPreparedStatement(courses.get(i).getName()));
+            courses.get(i).getEnrolledStudents().addAll(gradeModel.studentEnrolledPreparedStatement(courses.get(i).getCourseID()));
         }
 
         //the ith student that is enrolled into the jth course, the jth is added to the jth students list of attended courses.
@@ -239,7 +239,7 @@ public class Controller {
         course.getEnrolledStudents().add(student);
         student.getAttendedCourses().add(course);
         GradeModel gradeModel = initGradeModel();
-        gradeModel.addStudentToCourse(student.getStudentID(),course.getName(),"On going");
+        gradeModel.addStudentToCourse(student.getStudentID(),course.getCourseID(),"On going");
         databaseInclusion();
     }
 

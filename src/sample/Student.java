@@ -96,10 +96,9 @@ public class Student {
 
     public ObservableList<String> nameOfAttendedCourse(GradeModel gradeModel) throws SQLException {
         for (int i = 0; i < attendedCourses.size();i++)
-        nameOfAttendedCourses.add(gradeModel.courseNamePreparedStatement(attendedCourses.get(i).getName(), studentID));
+        nameOfAttendedCourses.add(gradeModel.courseNamePreparedStatement(attendedCourses.get(i).getCourseID(), studentID));
         return  nameOfAttendedCourses;
     }
-
 
     public ObservableList<String> getNameOfAttendedCourses() {
         return nameOfAttendedCourses;

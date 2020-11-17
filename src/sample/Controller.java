@@ -63,21 +63,30 @@ public class Controller {
         fillTab5();
     }
 
-    //This method takes the information from the database and adds it to this program.
-    public void databaseInclusion() throws SQLException {
-       //The connection to the database is established.
-        //String url = "jdbc:sqlite:C:\\Users\\WinSa\\OneDrive\\Dokumenter\\RUC\\Fifth semester\\Software Development\\Programs from class\\Portfolio3CourseRegistration\\StudentsGrades.db";
-        String url = "jdbc:sqlite:/Users/namra/Documents/GitHub/Portfolio3CourseRegistration/StudentsGrades.db";
-        GradeModel gradeModel = new GradeModel(url);
-        try{
-            gradeModel.connect();
-            gradeModel.createStatement();
-        }catch (SQLException e){
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-        }
+        public GradeModel initGradeModel() {
 
+            //The connection to the database is established.
+            String url = "jdbc:sqlite:C:\\Users\\WinSa\\OneDrive\\Dokumenter\\RUC\\Fifth semester\\Software Development\\Programs from class\\Portfolio3CourseRegistration\\StudentsGrades.db";
+            //String url = "jdbc:sqlite:/Users/namra/Documents/GitHub/Portfolio3CourseRegistration/StudentsGrades.db";
+            GradeModel gradeModel = new GradeModel(url);
+            try {
+                gradeModel.connect();
+                gradeModel.createStatement();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            }
+            return gradeModel;
+        }
+        //This method takes the information from the database and adds it to this program.
+        public void databaseInclusion() throws SQLException {
         //All Students about the students is added to the observable array list students.
+        students.clear();
+        /*for (int i = 0; i < courses.size(); i++){
+            courses.get(i).getEnrolledStudents().clear();
+            System.out.println(courses.get(i).getEnrolledStudents());
+        }*/
+        GradeModel gradeModel = initGradeModel();
         students.addAll(gradeModel.StudentQueryStatement());
 
         //grades of students are added here to the each of the courses.
@@ -227,26 +236,42 @@ public class Controller {
 
     //Tab 1 button
     //This tab allows another student to be added inside the GUI when the button is clicked.
-    public void addStudent(ActionEvent actionEvent) {
-        Student student = new Student();
-         student.setFirstName(textFieldFirstName.getText());
-         student.setLastName(textFieldLastName.getText());
-         student.setStudentID(textFieldStudentID.getText());
-         student.setHometown(textFieldHometown.getText());
-        if (!students.contains(student)) {
-            students.add(student);
-        }
-        System.out.println(students);
+    public void addStudent(ActionEvent actionEvent) throws SQLException {
+        GradeModel gradeModel = initGradeModel();
+        String firstName = textFieldFirstName.getText();
+        String lastName = textFieldLastName.getText();
+        String studentID = textFieldStudentID.getText();
+        String hometown = textFieldHometown.getText();
+
+        gradeModel.addNewStudent(firstName,lastName,studentID,hometown);
+        databaseInclusion();
     }
 
     //Tab 3 button
     //This button enrolls a student to a course.
-    public void AddStudentToCourse(ActionEvent actionEvent) {
+    public void AddStudentToCourse(ActionEvent actionEvent) throws SQLException {
         Course course = (Course) comboBoxCourses.getSelectionModel().getSelectedItem();
         Student student = (Student) comboBoxStudents.getSelectionModel().getSelectedItem();
         course.getEnrolledStudents().add(student);
         student.getAttendedCourses().add(course);
-        System.out.println(course.getName()+ " has students: "+course.getEnrolledStudents());
+        GradeModel gradeModel = initGradeModel();
+        gradeModel.addStudentToCourse(student.getStudentID(),course.getName(),"On going");
+        for (int i = 0; i < courses.size(); i++){
+
+            System.out.println(courses.get(i).getEnrolledStudents());
+        }
+
+        for (int i = 0; i < courses.size(); i++){
+            courses.get(i).getEnrolledStudents().clear();
+            System.out.println(courses.get(i).getEnrolledStudents());
+        }
+        databaseInclusion();
+        for (int i = 0; i < courses.size(); i++){
+
+            System.out.println(courses.get(i).getEnrolledStudents());
+        }
+
+        //System.out.println(course.getName()+ " has students: "+course.getEnrolledStudents());
     }
 
     //Tab 4 button

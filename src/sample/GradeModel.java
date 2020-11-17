@@ -143,4 +143,34 @@ public class GradeModel {
         return courseName;
     }
 
+    public void addNewStudent(String firstName, String lastName, String studentID, String hometown)  {
+        try {
+        String sql = "insert into students (studentID, firstName, lastName, hometown) values (?,?,?,?);";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1,studentID);
+        preparedStatement.setString(2,firstName);
+        preparedStatement.setString(3,lastName);
+        preparedStatement.setString(4,hometown);
+        preparedStatement.execute();
+        }  catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void addStudentToCourse(String studentID, String courseID, String grade) {
+        try {
+            String sql = "insert into grade (studentID, courseID, grade)\n" +
+                    "values (?,?,?);";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,studentID);
+            preparedStatement.setString(2, courseID);
+            preparedStatement.setString(3,grade);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+    }
+
 }

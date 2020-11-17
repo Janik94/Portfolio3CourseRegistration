@@ -61,19 +61,19 @@ public class Controller {
         fillTab5();
     }
 
-        public GradeModel initGradeModel() {
+        public SQLStatement initGradeModel() {
             //The connection to the database is established.
             String url = "jdbc:sqlite:C:\\Users\\WinSa\\OneDrive\\Dokumenter\\RUC\\Fifth semester\\Software Development\\Programs from class\\Portfolio3CourseRegistration\\StudentsGrades.db";
             //String url = "jdbc:sqlite:/Users/namra/Documents/GitHub/Portfolio3CourseRegistration/StudentsGrades.db";
-            GradeModel gradeModel = new GradeModel(url);
+            SQLStatement SQLStatement = new SQLStatement(url);
             try {
-                gradeModel.connect();
-                gradeModel.createStatement();
+                SQLStatement.connect();
+                SQLStatement.createStatement();
             } catch (SQLException e) {
                 e.printStackTrace();
                 System.out.println(e.getMessage());
             }
-            return gradeModel;
+            return SQLStatement;
         }
 
         //This method takes the information from the database and adds it to this program.
@@ -81,8 +81,8 @@ public class Controller {
         //All Students about the students is added to the observable array list students.
         students.clear();
 
-        GradeModel gradeModel = initGradeModel();
-        students.addAll(gradeModel.studentQueryStatement());
+        SQLStatement SQLStatement = initGradeModel();
+        students.addAll(SQLStatement.studentQueryStatement());
             for (int i = 0; i < courses.size(); i++){
                 courses.get(i).getEnrolledStudents().clear();
                 courses.get(i).getGradesOfStudents().clear();
@@ -90,7 +90,7 @@ public class Controller {
         databaseEnrollStudents();
         //grades of students are added here to the each of the courses.
             for (int i = 0; i < courses.size(); i++){
-                courses.get(i).getGradesOfStudents().addAll(gradeModel.courseGradePreparedStatement(courses.get(i).getCourseID()));
+                courses.get(i).getGradesOfStudents().addAll(SQLStatement.courseGradePreparedStatement(courses.get(i).getCourseID()));
             }
 
         //The list of attended courses for all students, and the list of enrolled students for all courses is filled.
@@ -98,19 +98,19 @@ public class Controller {
 
         //Fills the list of the average grade for all the enrolled student for each course at the corresponding index of courses.
         for (int i = 0; i < courses.size(); i++){
-            AVGCourse.add(courses.get(i).averageGradeOfCourse(gradeModel));
+            AVGCourse.add(courses.get(i).averageGradeOfCourse(SQLStatement));
         }
 
         //Fills the list of the average grade for all the students' attended courses for each student at the corresponding index of students.
         for (int i = 0; i < students.size(); i++){
-            AVGStudent.add(students.get(i).myAverageGrade(gradeModel));
+            AVGStudent.add(students.get(i).myAverageGrade(SQLStatement));
         }
 
 
         //Fills the arrayList for ith student with the ith students grade in each of their attended courses at the corresponding index of attended courses.
             for (int i = 0; i < students.size(); i++) {
                 for (int j = 0; j < students.get(i).getAttendedCourses().size(); j++) {
-                students.get(i).getMyGradeinAttendedCourses().addAll(gradeModel.studentGradePreparedStatement(students.get(i).getStudentID(), students.get(i).getAttendedCourses().get(j).getCourseID()));
+                students.get(i).getMyGradeinAttendedCourses().addAll(SQLStatement.studentGradePreparedStatement(students.get(i).getStudentID(), students.get(i).getAttendedCourses().get(j).getCourseID()));
             }
         }
 
@@ -126,16 +126,16 @@ public class Controller {
         }
 
         for (int i= 0; i < students.size();i++) {
-            students.get(i).nameOfAttendedCourse(gradeModel);
+            students.get(i).nameOfAttendedCourse(SQLStatement);
         }
 
     }
 
     //The list of attended courses for all students, and the list of enrolled students for all courses is filled.
     public void databaseEnrollStudents() throws SQLException{
-        GradeModel gradeModel = initGradeModel();
+        SQLStatement SQLStatement = initGradeModel();
         for (int i= 0; i <courses.size();i++) {
-            courses.get(i).getEnrolledStudents().addAll(gradeModel.studentEnrolledPreparedStatement(courses.get(i).getCourseID()));
+            courses.get(i).getEnrolledStudents().addAll(SQLStatement.studentEnrolledPreparedStatement(courses.get(i).getCourseID()));
         }
 
         //the ith student that is enrolled into the jth course, the jth is added to the jth students list of attended courses.
@@ -218,13 +218,13 @@ public class Controller {
     //Tab 1 button
     //This tab allows another student to be added inside the GUI when the button is clicked.
     public void addStudent(ActionEvent actionEvent) throws SQLException {
-        GradeModel gradeModel = initGradeModel();
+        SQLStatement SQLStatement = initGradeModel();
         String firstName = textFieldFirstName.getText();
         String lastName = textFieldLastName.getText();
         String studentID = textFieldStudentID.getText();
         String hometown = textFieldHometown.getText();
 
-        gradeModel.addNewStudent(firstName,lastName,studentID,hometown);
+        SQLStatement.addNewStudent(firstName,lastName,studentID,hometown);
         databaseInclusion();
     }
 
@@ -235,8 +235,8 @@ public class Controller {
         Student student = (Student) comboBoxStudents.getSelectionModel().getSelectedItem();
         course.getEnrolledStudents().add(student);
         student.getAttendedCourses().add(course);
-        GradeModel gradeModel = initGradeModel();
-        gradeModel.addStudentToCourse(student.getStudentID(),course.getCourseID(),"On going");
+        SQLStatement SQLStatement = initGradeModel();
+        SQLStatement.addStudentToCourse(student.getStudentID(),course.getCourseID(),"On going");
         databaseInclusion();
     }
 
@@ -250,8 +250,8 @@ public class Controller {
         course.getGradesOfStudents().add(grade);
         course.getEnrolledStudents().add(student);
 
-        GradeModel gradeModel = initGradeModel();
-        gradeModel.changeGradeForStudent(student.getStudentID(),grade.getGrade());
+        SQLStatement SQLStatement = initGradeModel();
+        SQLStatement.changeGradeForStudent(student.getStudentID(),grade.getGrade());
         databaseInclusion();
     }
 }

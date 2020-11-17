@@ -1,11 +1,9 @@
 package sample;
 
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class Course {
 
@@ -41,8 +39,8 @@ public class Course {
         this.gradesOfStudents = gradesOfStudents;
     }
     //A method that returns the average grade of the course through a prepared statement and SQL query.
-    public String averageGradeOfCourse(GradeModel gradeModel) throws SQLException {
-        return gradeModel.courseAVGPreparedStatement(this.courseID);
+    public String averageGradeOfCourse(SQLStatement SQLStatement) throws SQLException {
+        return SQLStatement.courseAVGPreparedStatement(this.courseID);
     }
 
     public boolean enrollStudent(Student student){

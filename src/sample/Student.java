@@ -1,6 +1,5 @@
 package sample;
 
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -69,8 +68,8 @@ public class Student {
     }
 
     //A students average is calculated through a prepared statement and SQL query.
-    public String myAverageGrade(GradeModel gradeModel) throws SQLException {
-        myAverage = gradeModel.studentAVGPreparedStatement(studentID);
+    public String myAverageGrade(SQLStatement SQLStatement) throws SQLException {
+        myAverage = SQLStatement.studentAVGPreparedStatement(studentID);
         return myAverage;
     }
 
@@ -94,9 +93,9 @@ public class Student {
         this.attendedCourses = attendedCourses;
     }
 
-    public ObservableList<String> nameOfAttendedCourse(GradeModel gradeModel) throws SQLException {
+    public ObservableList<String> nameOfAttendedCourse(SQLStatement SQLStatement) throws SQLException {
         for (int i = 0; i < attendedCourses.size();i++)
-        nameOfAttendedCourses.add(gradeModel.courseNamePreparedStatement(attendedCourses.get(i).getCourseID(), studentID));
+        nameOfAttendedCourses.add(SQLStatement.courseNamePreparedStatement(attendedCourses.get(i).getCourseID(), studentID));
         return  nameOfAttendedCourses;
     }
 

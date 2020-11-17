@@ -5,12 +5,12 @@ import java.util.ArrayList;
 
 import static java.sql.DriverManager.getConnection;
 
-public class GradeModel {
+public class SQLStatement {
     Connection connection = null;
     Statement statement = null;
     String url;
 
-    public GradeModel(String url) {
+    public SQLStatement(String url) {
         this.url = url;
     }
 

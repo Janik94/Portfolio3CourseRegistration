@@ -86,7 +86,6 @@ public class Controller {
             for (int i = 0; i < courses.size(); i++){
                 courses.get(i).getEnrolledStudents().clear();
                 courses.get(i).getGradesOfStudents().clear();
-                System.out.println(courses.get(i).getEnrolledStudents());
             }
         databaseEnrollStudents();
         //grades of students are added here to the each of the courses.
@@ -121,7 +120,6 @@ public class Controller {
                 for (int j = 0; j < students.get(i).getAttendedCourses().size(); j++) {
                     if (courses.get(k).equals(students.get(i).getAttendedCourses().get(j))) {
                         students.get(i).getAverageGradeOfAttendedCourses().add(AVGCourse.get(k));
-                        System.out.println(students.get(i).getAverageGradeOfAttendedCourses());
                     }
                 }
             }
@@ -183,7 +181,6 @@ public class Controller {
                 public void changed(ObservableValue observableValue, Object o, Object t1) {
                 Course selectedCourse = (Course) t1;
                 comboBoxStudentsForGrade.setItems(selectedCourse.getEnrolledStudents());
-                System.out.println(t1);
             }
         }
         );

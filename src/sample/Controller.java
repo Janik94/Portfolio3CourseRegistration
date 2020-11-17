@@ -1,6 +1,5 @@
 package sample;
 
-import com.sun.javafx.scene.control.SelectedCellsMap;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -9,7 +8,6 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Controller {
@@ -54,7 +52,7 @@ public class Controller {
 
     public void initialize() throws SQLException {
         //All the course options and grade options are added.
-        courses.addAll(new Course("ES1"),new Course("SD19"), new Course("SD20"));
+        courses.addAll(new Course("SD19"), new Course("SD20"), new Course("ES1"));
         grades.addAll(new Grade("-3"),new Grade("00"), new Grade("02"),new Grade("4"),new Grade("7"),new Grade("10"), new Grade("12"));
         databaseInclusion();
         fillTab2();
@@ -64,7 +62,6 @@ public class Controller {
     }
 
         public GradeModel initGradeModel() {
-
             //The connection to the database is established.
             String url = "jdbc:sqlite:C:\\Users\\WinSa\\OneDrive\\Dokumenter\\RUC\\Fifth semester\\Software Development\\Programs from class\\Portfolio3CourseRegistration\\StudentsGrades.db";
             //String url = "jdbc:sqlite:/Users/namra/Documents/GitHub/Portfolio3CourseRegistration/StudentsGrades.db";
@@ -78,24 +75,27 @@ public class Controller {
             }
             return gradeModel;
         }
+
         //This method takes the information from the database and adds it to this program.
         public void databaseInclusion() throws SQLException {
         //All Students about the students is added to the observable array list students.
         students.clear();
-        /*for (int i = 0; i < courses.size(); i++){
-            courses.get(i).getEnrolledStudents().clear();
-            System.out.println(courses.get(i).getEnrolledStudents());
-        }*/
-        GradeModel gradeModel = initGradeModel();
-        students.addAll(gradeModel.StudentQueryStatement());
 
+        GradeModel gradeModel = initGradeModel();
+        students.addAll(gradeModel.studentQueryStatement());
+            for (int i = 0; i < courses.size(); i++){
+                courses.get(i).getEnrolledStudents().clear();
+                courses.get(i).getGradesOfStudents().clear();
+                System.out.println(courses.get(i).getEnrolledStudents());
+            }
+        databaseEnrollStudents();
         //grades of students are added here to the each of the courses.
-        courses.get(0).getGradesOfStudents().addAll(gradeModel.CourseGradePreparedStatement("ES1"));
-        courses.get(1).getGradesOfStudents().addAll(gradeModel.CourseGradePreparedStatement("SD19"));
-        courses.get(2).getGradesOfStudents().addAll(gradeModel.CourseGradePreparedStatement("SD20"));
+            for (int i = 0; i < courses.size(); i++){
+                courses.get(i).getGradesOfStudents().addAll(gradeModel.courseGradePreparedStatement(courses.get(i).getName()));
+            }
 
         //The list of attended courses for all students, and the list of enrolled students for all courses is filled.
-        databaseEnrollStudents();
+
 
         //Fills the list of the average grade for all the enrolled student for each course at the corresponding index of courses.
         for (int i = 0; i < courses.size(); i++){
@@ -106,6 +106,7 @@ public class Controller {
         for (int i = 0; i < students.size(); i++){
             AVGStudent.add(students.get(i).myAverageGrade(gradeModel));
         }
+
 
         //Fills the arrayList for ith student with the ith students grade in each of their attended courses at the corresponding index of attended courses.
             for (int i = 0; i < students.size(); i++) {
@@ -133,19 +134,10 @@ public class Controller {
     }
 
     //The list of attended courses for all students, and the list of enrolled students for all courses is filled.
-    public void databaseEnrollStudents(){
-        //Fills the list of enrolled students for all courses in array list courses.
-        for (int m = 0; m <courses.size(); m++){ //runs through all the courses
-            for (int j = 0; j <students.size(); j++) { //Runs through all students
-                for (int i = 0; i < courses.get(m).getGradesOfStudents().size(); i++) { //Runs through all grades of students of mth course. (Student only have grades of the courses they attend)
-                    String a = courses.get(m).getGradesOfStudents().get(i).getStudentID();
-                    //If the StudentID of the jth student is equal to the studentID of the student that has a grade of the mth course
-                    //the jth student with this StudentID is added to the list of enrolledStudents for the mth course.
-                    if (students.get(j).getStudentID().equals(a)) { //compare studentId to the studentID of all student
-                        courses.get(m).getEnrolledStudents().add(students.get(j)); //Enroll this student in course, if they have a grade for this course
-                    }
-                }
-            }
+    public void databaseEnrollStudents() throws SQLException{
+        GradeModel gradeModel = initGradeModel();
+        for (int i= 0; i <courses.size();i++) {
+            courses.get(i).getEnrolledStudents().addAll(gradeModel.studentEnrolledPreparedStatement(courses.get(i).getName()));
         }
 
         //the ith student that is enrolled into the jth course, the jth is added to the jth students list of attended courses.
@@ -211,7 +203,6 @@ public class Controller {
             public void changed(ObservableValue observableValue, Object o, Object t1) {
                 Student selectedStudent = (Student) t1;
 
-
                 CoursesTaken.setItems(selectedStudent.getNameOfAttendedCourses());
                 //We want the particular grade this particular student got for the attended courses
                 StudentsGrade.setItems(selectedStudent.getMyGradeinAttendedCourses());
@@ -219,13 +210,6 @@ public class Controller {
                 AverageStudentGrade.setText(selectedStudent.getMyAverage());
                 AverageGradeForSelectedStudent.setText(selectedStudent.getFirstName()+" "+selectedStudent.getLastName()+ "'s average is: ");
                 SelectedStudentsGrades.setText(selectedStudent.getFirstName()+" "+selectedStudent.getLastName()+ "'s grades: ");
-
-                //selectedStudent.something();
-                //StudentsGrade.setItems(SelectedStudentsGrades);
-
-                //System.out.println(selectedStudent.getAttendedCourses()+" has AVG grades "+ selectedStudent.getAverageGradeOfAttendedCourses());
-                //AvgCourseGrade.setItems(selectedStudent.getAverageGradeOfAttendedCourses());
-                //System.out.println(selectedStudentAVGCourse);
             }
         }
         );
@@ -249,34 +233,19 @@ public class Controller {
 
     //Tab 3 button
     //This button enrolls a student to a course.
-    public void AddStudentToCourse(ActionEvent actionEvent) throws SQLException {
+    public void addStudentToCourse(ActionEvent actionEvent) throws SQLException {
         Course course = (Course) comboBoxCourses.getSelectionModel().getSelectedItem();
         Student student = (Student) comboBoxStudents.getSelectionModel().getSelectedItem();
         course.getEnrolledStudents().add(student);
         student.getAttendedCourses().add(course);
         GradeModel gradeModel = initGradeModel();
         gradeModel.addStudentToCourse(student.getStudentID(),course.getName(),"On going");
-        for (int i = 0; i < courses.size(); i++){
-
-            System.out.println(courses.get(i).getEnrolledStudents());
-        }
-
-        for (int i = 0; i < courses.size(); i++){
-            courses.get(i).getEnrolledStudents().clear();
-            System.out.println(courses.get(i).getEnrolledStudents());
-        }
         databaseInclusion();
-        for (int i = 0; i < courses.size(); i++){
-
-            System.out.println(courses.get(i).getEnrolledStudents());
-        }
-
-        //System.out.println(course.getName()+ " has students: "+course.getEnrolledStudents());
     }
 
     //Tab 4 button
     //This button adds a grade to a student enrolled in that course.
-    public void AddGradeToStudent(ActionEvent actionEvent) {
+    public void addGradeToStudent(ActionEvent actionEvent) throws SQLException {
         Course course = (Course) comboBoxCoursesForGrade.getSelectionModel().getSelectedItem();
         Student student = (Student) comboBoxStudentsForGrade.getSelectionModel().getSelectedItem();
         Grade grade = (Grade) comboBoxGradesForStudent.getSelectionModel().getSelectedItem();
@@ -284,6 +253,8 @@ public class Controller {
         course.getGradesOfStudents().add(grade);
         course.getEnrolledStudents().add(student);
 
-        System.out.println(student.getFirstName() + " has grade " + grade.getGrade());
+        GradeModel gradeModel = initGradeModel();
+        gradeModel.changeGradeForStudent(student.getStudentID(),grade.getGrade());
+        databaseInclusion();
     }
 }

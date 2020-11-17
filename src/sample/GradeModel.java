@@ -26,7 +26,7 @@ public class GradeModel {
 
     //Returns an array list of "Student"-objects with all the students from the database (table studentInfo).
     //statement.executeQuery is written inside a Try-Catch statement because it throws an SQLException.
-    public ArrayList<Student> StudentQueryStatement(){
+    public ArrayList<Student> studentQueryStatement(){
         ArrayList<Student> students = new ArrayList<Student>();
         String sql = "select studentID, firstName, lastName, hometown\n" +
                 "from students";
@@ -69,7 +69,7 @@ public class GradeModel {
     }
 
     //Returns an array list of "Grade" object withe the grades from the database where the courseID is the input courseID.
-    public ArrayList<Grade> CourseGradePreparedStatement(String courseID) throws SQLException {
+    public ArrayList<Grade> courseGradePreparedStatement(String courseID) throws SQLException {
         ArrayList<Grade> grades = new ArrayList<>();
         String sql = "select grade, studentID\n" +
                 "from grade\n" +
@@ -89,7 +89,7 @@ public class GradeModel {
     }
 
     //returns the average grade specified in the input sql String for that particular id (either CourseID or StudentID).
-    public String getAverage(String id, String sql) throws SQLException {
+    public String calculateAverage(String id, String sql) throws SQLException {
         String grade = null;
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1,id);
@@ -109,7 +109,7 @@ public class GradeModel {
         String sql="select AVG(grade)\n" +
                 "from grade\n" +
                 "where courseID is ?;";
-        String result = getAverage(id,sql);
+        String result = calculateAverage(id,sql);
         if (result.equals("0.0")) return "On going";
         return result;
     }
@@ -121,7 +121,7 @@ public class GradeModel {
                 "from grade\n" +
                 "where grade != 'On going' and studentID is ?;";
 
-        return getAverage(id,sql);
+        return calculateAverage(id,sql);
     }
 
     public String courseNamePreparedStatement(String courseID, String studentID) throws SQLException {
@@ -141,6 +141,29 @@ public class GradeModel {
             courseName = resultSet.getString(1);
         }
         return courseName;
+    }
+
+    public ArrayList<Student> studentEnrolledPreparedStatement(String CourseID) throws SQLException {
+        ArrayList<Student> enrolledStudents = new ArrayList<Student>();
+        String sql = "select S.firstName, S.lastName, G.studentID,S.hometown\n" +
+                "from grade G\n" +
+                "join students S on courseID = ?\n" +
+                "where G.studentID = S.StudentID;";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1,CourseID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet == null){
+            System.out.println("No data retrieved");
+        }
+        while (resultSet != null && resultSet.next()){
+            String firstName = resultSet.getString(1);
+            String lastName = resultSet.getString(2);
+            String studentID = resultSet.getString(3);
+            String hometown = resultSet.getString(4);
+            enrolledStudents.add(new Student(firstName,lastName, studentID, hometown));
+        }
+
+        return enrolledStudents;
     }
 
     public void addNewStudent(String firstName, String lastName, String studentID, String hometown)  {
@@ -168,6 +191,21 @@ public class GradeModel {
             preparedStatement.setString(3,grade);
             preparedStatement.execute();
         } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void changeGradeForStudent(String studentID, String grade){
+        try {
+            String sql = "update grade\n" +
+                    "set grade = ?\n" +
+                    "where studentID = ?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,grade);
+            preparedStatement.setString(2,studentID);
+            preparedStatement.execute();
+        }catch (SQLException e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
         }

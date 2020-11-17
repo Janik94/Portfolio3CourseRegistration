@@ -1,0 +1,54 @@
+drop table if exists students;
+drop table if exists courses;
+drop table if exists grade;
+
+create table if not exists students(
+    studentID text not null primary key,
+    firstName text,
+    lastName text,
+    hometown text
+
+);
+create table if not exists courses(
+    courseID text,
+    courseName text,
+    teacher text,
+    primary key (courseID)
+);
+
+
+create table if not exists grade(
+    studentID text,
+    courseID text,
+    grade text,
+    primary key (studentID,courseID),
+    foreign key (studentID) references students(studentID) on delete restrict on update cascade,
+    foreign key (courseID) references courses(courseID) on delete restrict on update cascade
+);
+
+insert into students
+(studentID, firstName, lastName, hometown) values
+('1', 'Aisha', 'Lincoln', 'Nykøbing F'),
+('2', 'Anya', 'Nielsen', 'Nykøbing F'),
+('3', 'Alfred', 'Jensen', 'Camas'),
+('4', 'Berta', 'Bertelsen', 'Billund'),
+('5', 'Albert', 'Antonsen', 'Sorø'),
+('6', 'Eske', 'Eriksen', 'Eskildstrup'),
+('7', 'Olaf', 'Olesen', 'Odense'),
+('8', 'Salma', 'Simonsen', 'Stockholm'),
+('9', 'Theis', 'Thomasen', 'Tølløse'),
+('10', 'Janet', 'Jensen', 'Jyllinge');
+
+insert into courses values
+('ES1','Essential Computing 2019', 'Ebbe Vang'),
+('SD19', 'Software Development 2019', 'Line Reinhardt'),
+('SD20', 'Software Development 2020', 'Line Reinhardt');
+
+
+insert into grade(studentID, courseID, grade) VALUES
+('1','ES1','10'), ('1','SD19', '12'), ('2','ES1','12'), ('2','SD20','On going'),
+('3','ES1','10'), ('3','SD19','7'), ('4','ES1','02'), ('4','SD20','On going'),
+('5','ES1','7'), ('5','SD19','10'), ('6','ES1','10'), ('6','SD20','On going'),
+('7','ES1','12'), ('7','SD19','4'), ('8','ES1','12'), ('8','SD20','On going'),
+('9','ES1','12'), ('9','SD19','12'),('10','ES1','7'), ('10','SD20','On going');
+

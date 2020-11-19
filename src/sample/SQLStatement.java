@@ -107,9 +107,9 @@ public class SQLStatement {
     //Helper method for getAverage that sets the SQL statement to be the one that will find the average of the courses grades.
     //In case the average is 0.0 it means that the students of this course have not been graded yet and therefore it returns "On going",
     public String courseAVGPreparedStatement( String id) throws SQLException{
-        String sql="select AVG(grade)\n" +
-                "from grade\n" +
-                "where courseID is ? and grade != 'On going';";
+        String sql= "select AVG(grade)\n" +
+                    "from grade\n" +
+                    "where courseID is ?";
         String result = calculateAverage(id,sql);
         if (result.equals("0.0")) return "On going";
         return result;

@@ -99,7 +99,7 @@ public class SQLStatement {
         }
         while (resultSet != null && resultSet.next()){
             grade = resultSet.getString(1);
-    }
+        }
         return grade;
     }
 
@@ -163,7 +163,6 @@ public class SQLStatement {
             String hometown = resultSet.getString(4);
             enrolledStudents.add(new Student(firstName,lastName, studentID, hometown));
         }
-
         return enrolledStudents;
     }
 
@@ -234,7 +233,4 @@ public class SQLStatement {
             System.out.println(e.getMessage());
         }
     }
-
-
-
 }

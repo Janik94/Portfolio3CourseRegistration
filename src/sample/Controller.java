@@ -74,10 +74,8 @@ public class Controller {
         SQLStatement SQLStatement = initSQLStatement();
         students.addAll(SQLStatement.studentQueryStatement());
 
-
         //Fills Course.enrolledStudents and Student.attendedCourses.
         databaseEnrollStudents();
-
 
         //Fills an array list of grades of enrolled students for every course.
         for (int i = 0; i < courses.size(); i++) {
@@ -94,7 +92,6 @@ public class Controller {
             AVGStudent.add(students.get(i).myAverageGrade(SQLStatement));
         }
 
-
         //Fills the list of the student's grades of their attended courses for all students
         for (int i = 0; i < students.size(); i++) {
             for (int j = 0; j < students.get(i).getAttendedCourses().size(); j++) {
@@ -107,20 +104,20 @@ public class Controller {
             for (int j = 0; j < students.get(i).getAttendedCourses().size(); j++)
                 students.get(i).getAverageGradeOfAttendedCourses().addAll(SQLStatement.courseAVGPreparedStatement(students.get(i).getAttendedCourses().get(j).getCourseID()));
         }
+
         //For each student the names of their attended courses are added here.
         // This is used mainly for aestic purposes for the GUI, instead of printing the course ID.
         for (int i = 0; i < students.size(); i++) {
             students.get(i).nameOfAttendedCourse(SQLStatement);
         }
-
     }
 
     //Attempts to establish a connection to the given database URL of the form jdbc:subprotocol:subname
     //and creates a Statement object for sending SQL statements to the database and returns this Statement object.
     public SQLStatement initSQLStatement() {
         //Insert your URL here in the form of the form jdbc:subprotocol:subname to the StudentsGrades.db file.
-        //String url = "jdbc:sqlite:C:\\Users\\WinSa\\OneDrive\\Dokumenter\\RUC\\Fifth semester\\Software Development\\Programs from class\\Portfolio3CourseRegistration\\StudentsGrades.db";
-        String url = "jdbc:sqlite:/Users/namra/Documents/GitHub/Portfolio3CourseRegistration/StudentsGrades.db";
+        String url = "jdbc:sqlite:C:\\Users\\WinSa\\OneDrive\\Dokumenter\\RUC\\Fifth semester\\Software Development\\Programs from class\\Portfolio3CourseRegistration\\StudentsGrades.db";
+        //String url = "jdbc:sqlite:/Users/namra/Documents/GitHub/Portfolio3CourseRegistration/StudentsGrades.db";
 
         SQLStatement SQLStatement = new SQLStatement(url);
         try {
@@ -150,7 +147,6 @@ public class Controller {
         }
     }
 
-
     // Tab 1 contains four text fields where you can write the information of a new Student and
     // add that person to the database ,when the button is pressed. (This method addStudent is does this action).
     public void addStudent(ActionEvent actionEvent) throws SQLException {
@@ -167,7 +163,6 @@ public class Controller {
     //Tab 2 contains a table that views all the information from the array list students,
     // each of their attributes displayed in different columns.
     public void fillTab2() {
-
         tableStudents.setItems(students);
         //Column 1 will fill out with the getFirstName for all students in the array list students.
         tableColumnFirstName.setCellValueFactory(
@@ -190,7 +185,6 @@ public class Controller {
     //Tab 3 contains a top part where you can choose a student and enroll them onto a course by pressing button.
     //the center and bottom part contains overviews of which students are enrolled in the different courses.
     public void fillTab3() {
-
         //We set the comboxed to contain the students and the courses.
         comboBoxStudents.setItems(students);
         comboBoxCourses.setItems(courses);
@@ -220,7 +214,6 @@ public class Controller {
 
     //Tab 4 contains at the top an option to add a grade to student of a course.
     //In the bottom it shows all the student of a course and their given grade.
-
     public void fillTab4() {
         //The combobox for selection of courses should contain all courses as option
         //The combobox for selection of grades contains all possible grades as option.
@@ -229,12 +222,12 @@ public class Controller {
 
         //The combobox for selection of student should only contain only the students already enrolled in the course.
         comboBoxCoursesForGrade.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-                                                                                           @Override
-                                                                                           public void changed(ObservableValue observableValue, Object o, Object t1) {
-                                                                                               Course selectedCourse = (Course) t1;
-                                                                                               comboBoxStudentsForGrade.setItems(selectedCourse.getEnrolledStudents());
-                                                                                           }
-                                                                                       }
+            @Override
+            public void changed(ObservableValue observableValue, Object o, Object t1) {
+                Course selectedCourse = (Course) t1;
+                comboBoxStudentsForGrade.setItems(selectedCourse.getEnrolledStudents());
+            }
+        }
         );
 
         //The list views in the bottom show the enrolled students and their respective grades for each of the courses.
@@ -264,12 +257,10 @@ public class Controller {
         databaseInclusion();
     }
 
-
     //Tab 5 contains a top part where you can select any student from a combobox. Right next to it, it shows the selected
     //students average grade. Below are three lists. The leftmost list shows what courses the selected student attends.
     //The center list shows the selected students grade in their attended courses. The rightmost list shows the average
     //grades of all the students enrolled in that course.
-
     public void fillTab5() {
         comboBoxStudentsInfo.setItems(students);
 

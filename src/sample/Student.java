@@ -35,16 +35,13 @@ public class Student {
         hometown = "null";
     }
 
-
     public String getFirstName() {
         return firstName;
     }
 
-
     public String getLastName() {
         return lastName;
     }
-
 
     public String getStudentID() {
         return studentID;
@@ -53,6 +50,7 @@ public class Student {
     public String getHometown() {
         return hometown;
     }
+
     //A students average is calculated through a prepared statement and SQL query.
     public String myAverageGrade(SQLStatement SQLStatement) throws SQLException {
         myAverage = SQLStatement.studentAVGPreparedStatement(studentID);
@@ -79,7 +77,6 @@ public class Student {
     public void nameOfAttendedCourse(SQLStatement SQLStatement) throws SQLException {
         for (int i = 0; i < attendedCourses.size();i++)
         nameOfAttendedCourses.add(SQLStatement.courseNamePreparedStatement(attendedCourses.get(i).getCourseID(), studentID));
-
     }
 
     public ObservableList<String> getNameOfAttendedCourses() {
@@ -90,5 +87,4 @@ public class Student {
     public String toString() {
         return firstName + " " + lastName;
     }
-
 }

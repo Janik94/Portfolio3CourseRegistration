@@ -24,7 +24,7 @@ public class SQLStatement {
         this.statement = connection.createStatement();
     }
 
-    //Returns an array list of "Student"-objects with all the students from the database (table studentInfo).
+    //Returns an array list of "Student"-objects with all the students from the database (table students).
     //statement.executeQuery is written inside a Try-Catch statement because it throws an SQLException.
     public ArrayList<Student> studentQueryStatement(){
         ArrayList<Student> students = new ArrayList<Student>();
@@ -68,7 +68,7 @@ public class SQLStatement {
         return grades;
     }
 
-    //Returns an array list of "Grade" object withe the grades from the database where the courseID is the input courseID.
+    //Returns an array list of "Grade" object withe the grades from the database where the courseID is the parameter input courseID.
     public ArrayList<Grade> courseGradePreparedStatement(String courseID) throws SQLException {
         ArrayList<Grade> grades = new ArrayList<>();
         String sql = "select grade, studentID\n" +
@@ -88,7 +88,7 @@ public class SQLStatement {
         return grades;
     }
 
-    //returns the average grade specified in the input sql String for that particular id (either CourseID or StudentID).
+    //Returns the average grade specified in the input sql String for that particular id (either CourseID or StudentID).
     public String calculateAverage(String id, String sql) throws SQLException {
         String grade = null;
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -104,7 +104,7 @@ public class SQLStatement {
     }
 
     //Helper method for getAverage that sets the SQL statement to be the one that will find the average of the courses grades.
-    //In case the average is 0.0 it means that the students of this course have not been graded yet and therefore it returns "on going",
+    //In case the average is 0.0 it means that the students of this course have not been graded yet and therefore it returns "On going",
     public String courseAVGPreparedStatement( String id) throws SQLException{
         String sql="select AVG(grade)\n" +
                 "from grade\n" +
@@ -115,7 +115,7 @@ public class SQLStatement {
     }
 
     //Helper method for getAverage that sets the SQL statement to be the one that will find the average of the students
-    // grades for all the subject the student has been graded.
+    //grades for all the subject the student has been graded.
     public String studentAVGPreparedStatement( String id) throws SQLException{
         String sql="select AVG(grade)\n" +
                 "from grade\n" +
@@ -123,6 +123,7 @@ public class SQLStatement {
         return calculateAverage(id,sql);
     }
 
+    //Returns the name of the course with input courseID that student with input StudentID attends.
     public String courseNamePreparedStatement(String courseID, String studentID) throws SQLException {
         String courseName = null;
         String sql = "select C.courseName\n"+
@@ -142,6 +143,7 @@ public class SQLStatement {
         return courseName;
     }
 
+    //Returns an arrayList of students that are enrolled in the course with input courseID.
     public ArrayList<Student> studentEnrolledPreparedStatement(String CourseID) throws SQLException {
         ArrayList<Student> enrolledStudents = new ArrayList<Student>();
         String sql = "select S.firstName, S.lastName, G.studentID,S.hometown\n" +
@@ -165,6 +167,7 @@ public class SQLStatement {
         return enrolledStudents;
     }
 
+    //Returns an array list of courses that the student with input studentID attends/has attended.
     public ArrayList<Course> studentAttendedCourses(String studentID) throws SQLException {
             ArrayList<Course> attendedCourses = new ArrayList<Course>();
             String sql = "select courseID\n" +
@@ -183,6 +186,7 @@ public class SQLStatement {
         return attendedCourses;
     }
 
+    //Inserts a new student to database with the parameter input.
     public void addNewStudent(String firstName, String lastName, String studentID, String hometown)  {
         try {
         String sql = "insert into students (studentID, firstName, lastName, hometown) values (?,?,?,?);";
@@ -198,14 +202,15 @@ public class SQLStatement {
         }
     }
 
+    //adds a new student to a course with the parameter input in the database.
     public void addStudentToCourse(String studentID, String courseID, String grade) {
         try {
             String sql = "insert into grade (studentID, courseID, grade)\n" +
                     "values (?,?,?);";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,studentID);
+            preparedStatement.setString(1, studentID);
             preparedStatement.setString(2, courseID);
-            preparedStatement.setString(3,grade);
+            preparedStatement.setString(3, grade);
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -213,14 +218,16 @@ public class SQLStatement {
         }
     }
 
-    public void changeGradeForStudent(String studentID, String grade){
+    //Updates a grade in the database. It takes the input studentID and courseID and gives them the input grade.
+    public void changeGradeForStudent(String studentID, String grade, String courseID){
         try {
             String sql = "update grade\n" +
                     "set grade = ?\n" +
-                    "where studentID = ?;";
+                    "where studentID = ? and courseID = ?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1,grade);
             preparedStatement.setString(2,studentID);
+            preparedStatement.setString(3,courseID);
             preparedStatement.execute();
         }catch (SQLException e) {
             e.printStackTrace();

@@ -22,26 +22,6 @@ public class Grade {
         return grade;
     }
 
-    public void setGrade(String grade) {
-        this.grade = grade;
-    }
-
-    public String getStudentID() {
-        return studentID;
-    }
-
-    public void setStudentID(String studentID) {
-        this.studentID = studentID;
-    }
-
-    public String getCourseName() {
-        return courseName;
-    }
-
-    public void setCourseName(String courseName) {
-        this.courseName= courseName;
-    }
-
     @Override
     public String toString() {
         return grade;

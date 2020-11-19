@@ -11,9 +11,11 @@ public class Student {
     private String hometown;
     private String myAverage;
 
-    //A student will have an array list of attendedCourses
-    //and an array list of this students grade in their attended courses at the corresponding index,
-    //and an array list of which the average grade of the attended courses at the corresponding index.
+    //A student has an array list of attendedCourses given by CourseID,
+    //an array list of attendedCourses given by course name,
+    //an array list of this students grade in their attended courses at the corresponding index,
+    //an array list of which the average grade of the attended courses at the corresponding index.
+
     private ObservableList<Course> attendedCourses = FXCollections.observableArrayList();
     private ObservableList<String> nameOfAttendedCourses = FXCollections.observableArrayList();
     private ObservableList<Grade> myGradeinAttendedCourses = FXCollections.observableArrayList();
@@ -38,34 +40,19 @@ public class Student {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
 
     public String getStudentID() {
         return studentID;
     }
 
-    public void setStudentID(String studentID) {
-        this.studentID = studentID;
-    }
-
     public String getHometown() {
         return hometown;
     }
-
-    public void setHometown(String hometown) {
-        this.hometown = hometown;
-    }
-
     //A students average is calculated through a prepared statement and SQL query.
     public String myAverageGrade(SQLStatement SQLStatement) throws SQLException {
         myAverage = SQLStatement.studentAVGPreparedStatement(studentID);
@@ -88,25 +75,20 @@ public class Student {
         return attendedCourses;
     }
 
-    public void setAttendedCourses(ObservableList<Course> attendedCourses) {
-        this.attendedCourses = attendedCourses;
-    }
-
-    public ObservableList<String> nameOfAttendedCourse(SQLStatement SQLStatement) throws SQLException {
+    //The name of attended courses for the students is created through a prepared statement nad SQL query.
+    public void nameOfAttendedCourse(SQLStatement SQLStatement) throws SQLException {
         for (int i = 0; i < attendedCourses.size();i++)
         nameOfAttendedCourses.add(SQLStatement.courseNamePreparedStatement(attendedCourses.get(i).getCourseID(), studentID));
-        return  nameOfAttendedCourses;
+
     }
 
     public ObservableList<String> getNameOfAttendedCourses() {
         return nameOfAttendedCourses;
     }
 
-    public void setNameOfAttendedCourses(ObservableList<String> nameOfAttendedCourses) {
-        this.nameOfAttendedCourses = nameOfAttendedCourses;
-    }
     @Override
     public String toString() {
         return firstName + " " + lastName;
     }
+
 }

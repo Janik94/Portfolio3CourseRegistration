@@ -14,7 +14,6 @@ public class Course {
     private ObservableList<Student> enrolledStudents = FXCollections.observableArrayList();
     private ObservableList<Grade> gradesOfStudents = FXCollections.observableArrayList();
 
-
     public Course(String name) {
         this.courseID = name;
     }
@@ -23,9 +22,6 @@ public class Course {
         return courseID;
     }
 
-    public void setName(String name) {
-        this.courseID = name;
-    }
 
     public ObservableList<Student> getEnrolledStudents() {
         return enrolledStudents;
@@ -35,16 +31,10 @@ public class Course {
         return gradesOfStudents;
     }
 
-    public void setGradesOfStudents(ObservableList<Grade> gradesOfStudents) {
-        this.gradesOfStudents = gradesOfStudents;
-    }
+
     //A method that returns the average grade of the course through a prepared statement and SQL query.
     public String averageGradeOfCourse(SQLStatement SQLStatement) throws SQLException {
         return SQLStatement.courseAVGPreparedStatement(this.courseID);
-    }
-
-    public boolean enrollStudent(Student student){
-        return enrolledStudents.add(student);
     }
 
     @Override

@@ -48,6 +48,7 @@ public class Controller {
     ObservableList<String> AVGStudent = FXCollections.observableArrayList();
     ObservableList<String> AVGCourse = FXCollections.observableArrayList();
 
+    //This method runs when all of @FXML annotated fields are filled.
     public void initialize() throws SQLException {
         //All the course options and grade options are added.
         courses.addAll(new Course("SD19"), new Course("SD20"), new Course("ES1"));

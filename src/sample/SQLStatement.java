@@ -29,7 +29,7 @@ public class SQLStatement {
     public ArrayList<Student> studentQueryStatement(){
         ArrayList<Student> students = new ArrayList<Student>();
         String sql = "select studentID, firstName, lastName, hometown\n" +
-                "from students";
+                     "from students";
         ResultSet resultSet;
         try {
             resultSet = statement.executeQuery(sql);
@@ -52,8 +52,8 @@ public class SQLStatement {
     public ArrayList<Grade> studentGradePreparedStatement(String studentId, String courseID) throws SQLException {
         ArrayList<Grade> grades = new ArrayList<>();
         String sql = "select grade\n" +
-                "from grade\n" +
-                "where studentID is ? and courseID is ?;";
+                     "from grade\n" +
+                     "where studentID is ? and courseID is ?;";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1,studentId);
         preparedStatement.setString(2,courseID);
@@ -68,12 +68,13 @@ public class SQLStatement {
         return grades;
     }
 
-    //Returns an array list of "Grade" object withe the grades from the database where the courseID is the parameter input courseID.
+    //Returns an array list of "Grade" object with the grades from the database where the courseID is the parameter input courseID.
     public ArrayList<Grade> courseGradePreparedStatement(String courseID) throws SQLException {
         ArrayList<Grade> grades = new ArrayList<>();
         String sql = "select grade, studentID\n" +
-                "from grade\n" +
-                "where courseID is ? ;";
+                     "from grade\n" +
+                     "where courseID is ?\n" +
+                     "order by cast(studentID as integer);";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1,courseID);
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -108,7 +109,7 @@ public class SQLStatement {
     public String courseAVGPreparedStatement( String id) throws SQLException{
         String sql="select AVG(grade)\n" +
                 "from grade\n" +
-                "where courseID is ?;";
+                "where courseID is ? and grade != 'On going';";
         String result = calculateAverage(id,sql);
         if (result.equals("0.0")) return "On going";
         return result;
@@ -127,9 +128,9 @@ public class SQLStatement {
     public String courseNamePreparedStatement(String courseID, String studentID) throws SQLException {
         String courseName = null;
         String sql = "select C.courseName\n"+
-                "from courses C\n"+
-                "join grade G on C.courseID = ? and G.studentID = ?\n"+
-                "where G.courseID = C.courseID";
+                     "from courses C\n"+
+                     "join grade G on C.courseID = ? and G.studentID = ?\n"+
+                     "where G.courseID = C.courseID";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1,courseID);
         preparedStatement.setString(2,studentID);
@@ -147,9 +148,10 @@ public class SQLStatement {
     public ArrayList<Student> studentEnrolledPreparedStatement(String CourseID) throws SQLException {
         ArrayList<Student> enrolledStudents = new ArrayList<Student>();
         String sql = "select S.firstName, S.lastName, G.studentID,S.hometown\n" +
-                "from grade G\n" +
-                "join students S on courseID = ?\n" +
-                "where G.studentID = S.StudentID;";
+                     "from grade G\n" +
+                     "join students S on courseID = ?\n" +
+                     "where G.studentID = S.StudentID\n" +
+                     "order by cast(G.studentID as integer);";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1,CourseID);
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -170,8 +172,8 @@ public class SQLStatement {
     public ArrayList<Course> studentAttendedCourses(String studentID) throws SQLException {
             ArrayList<Course> attendedCourses = new ArrayList<Course>();
             String sql = "select courseID\n" +
-                    "from grade\n" +
-                    "where studentID is ?;";
+                         "from grade\n" +
+                         "where studentID is ?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1,studentID);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -205,7 +207,7 @@ public class SQLStatement {
     public void addStudentToCourse(String studentID, String courseID, String grade) {
         try {
             String sql = "insert into grade (studentID, courseID, grade)\n" +
-                    "values (?,?,?);";
+                         "values (?,?,?);";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, studentID);
             preparedStatement.setString(2, courseID);
@@ -221,8 +223,8 @@ public class SQLStatement {
     public void changeGradeForStudent(String studentID, String grade, String courseID){
         try {
             String sql = "update grade\n" +
-                    "set grade = ?\n" +
-                    "where studentID = ? and courseID = ?;";
+                         "set grade = ?\n" +
+                         "where studentID = ? and courseID = ? and grade is 'On going';";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1,grade);
             preparedStatement.setString(2,studentID);

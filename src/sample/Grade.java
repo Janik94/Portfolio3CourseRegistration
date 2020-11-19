@@ -3,7 +3,6 @@ package sample;
 public class Grade {
     private String grade;
     private String studentID;
-    private String courseName;
 
     public Grade(String grade, String studentID) {
         this.grade = grade;
